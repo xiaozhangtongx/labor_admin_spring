@@ -26,7 +26,6 @@
         <springfox.version>3.0.0</springfox.version>
         <hutool.version>5.3.3</hutool.version>
         <mybatis.plus.spring.boot.version>3.1.0</mybatis.plus.spring.boot.version>
-        <kotlin.version>1.3.71</kotlin.version>
     </properties>
 
     <!-- 1、只是声明依赖，并不实际引入，子项目按需声明使用的依赖 -->
@@ -104,19 +103,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -125,30 +111,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <addResources>true</addResources>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>1.8</jvmTarget>
                 </configuration>
             </plugin>
         </plugins>
