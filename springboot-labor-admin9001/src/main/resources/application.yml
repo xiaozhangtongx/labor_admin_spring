@@ -1,0 +1,43 @@
+#配置端口
+server:
+  port: 9001
+  servlet:
+    context-path: /api/v1
+
+
+spring:
+  application:
+    name: labor-admin-server
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/labor_admin?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    druid: classpath:druid.properties
+
+# MybatisPlus配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# swagger配置
+swagger:
+  enabled: true
+
+# JWT配置
+xiaozhang:
+  jwt:
+    header: Authorization
+    expire: 604800 #7天，秒单位
+    secret: xiaozhangtx1314520233
+
+# log4j配置
+logging:
+  config: classpath:log4j.xml
+
