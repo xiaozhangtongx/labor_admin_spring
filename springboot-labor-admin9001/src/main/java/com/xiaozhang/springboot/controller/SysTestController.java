@@ -4,6 +4,7 @@ import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,7 +27,7 @@ public class SysTestController {
 
     @PostMapping("/post")
     @ApiOperation("测试接口")
-    public Result postTest(@RequestBody SysUser sysUser) {
+    public Result postTest(@RequestBody @Validated SysUser sysUser) {
         return Result.success(sysUser.getUsername() + "post测试成功");
     }
 
