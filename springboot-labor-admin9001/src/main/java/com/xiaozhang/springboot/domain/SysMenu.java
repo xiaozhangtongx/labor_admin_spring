@@ -1,6 +1,5 @@
 package com.xiaozhang.springboot.domain;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -17,19 +16,18 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_menu")
 @ApiModel(value="SysMenu对象", description="菜单表")
 public class SysMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键")
-    @TableId(value = "menu_id", type = IdType.AUTO)
-    private String menuId;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
 
     @ApiModelProperty(value = "父菜单ID，一级菜单为0")
     private Long parentId;
@@ -58,9 +56,9 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
-    @ApiModelProperty(value = "状态")
+    @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
     @TableLogic
-    private Integer status;
+    private Integer isDeleted;
 
 
 }

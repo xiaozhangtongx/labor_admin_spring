@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
 @RestController
-@RequestMapping("/sys-role-nemu")
-public class SysRoleNemuController {
+@RequestMapping("/sys-role-menu")
+public class SysRoleMenuController {
 
 }

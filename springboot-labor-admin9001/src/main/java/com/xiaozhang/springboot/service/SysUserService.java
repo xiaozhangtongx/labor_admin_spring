@@ -9,12 +9,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
 public interface SysUserService extends IService<SysUser> {
 
-    String getUserAuthorityInfo(String userId);
-
     SysUser getByUserName(String username);
 
+    String getUserAuthorityInfo(String userId);
 }

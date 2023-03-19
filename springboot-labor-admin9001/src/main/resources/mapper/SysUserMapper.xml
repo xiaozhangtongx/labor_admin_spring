@@ -2,22 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaozhang.springboot.mapper.SysUserMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.xiaozhang.springboot.domain.SysUser">
-        <id column="user_id" property="userId" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="phone_num" property="phoneNum" />
-        <result column="avatar" property="avatar" />
-        <result column="last_login" property="lastLogin" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="status" property="status" />
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        user_id, username, password, phone_num, avatar, last_login, create_time, update_time, status
-    </sql>
-
 </mapper>

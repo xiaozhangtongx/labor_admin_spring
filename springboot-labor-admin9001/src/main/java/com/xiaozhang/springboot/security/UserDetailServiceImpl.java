@@ -28,7 +28,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("用户名或密码不正确");
         }
 
-        return new AccountUser(sysUser.getUserId(), sysUser.getUsername(), sysUser.getPassword(), getUserAuthority(sysUser.getUserId()));
+        return new AccountUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), getUserAuthority(sysUser.getId()));
     }
 
     /**

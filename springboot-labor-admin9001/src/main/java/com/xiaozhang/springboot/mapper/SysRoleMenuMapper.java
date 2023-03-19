@@ -1,6 +1,6 @@
 package com.xiaozhang.springboot.mapper;
 
-import com.xiaozhang.springboot.domain.SysRoleNemu;
+import com.xiaozhang.springboot.domain.SysRoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,9 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
 @Mapper
-public interface SysRoleNemuMapper extends BaseMapper<SysRoleNemu> {
+public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
 }

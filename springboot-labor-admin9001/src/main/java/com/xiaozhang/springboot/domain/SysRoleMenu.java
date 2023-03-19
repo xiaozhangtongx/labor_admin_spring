@@ -1,6 +1,5 @@
 package com.xiaozhang.springboot.domain;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -15,17 +14,16 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_role_nemu")
-@ApiModel(value="SysRoleNemu对象", description="")
-public class SysRoleNemu implements Serializable {
+@ApiModel(value="SysRoleMenu对象", description="")
+public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
     @ApiModelProperty(value = "ROLEID")

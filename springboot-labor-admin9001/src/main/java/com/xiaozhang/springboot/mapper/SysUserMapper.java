@@ -3,9 +3,6 @@ package com.xiaozhang.springboot.mapper;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * <p>
@@ -13,7 +10,7 @@ import java.util.List;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {

@@ -1,21 +1,13 @@
 package com.xiaozhang.springboot.domain;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-
 import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-
 import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
@@ -23,33 +15,36 @@ import javax.validation.constraints.NotBlank;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_user")
-@ApiModel(value = "SysUser对象", description = "用户表")
+@ApiModel(value="SysUser对象", description="用户表")
 public class SysUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "用户ID")
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private String userId;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
 
-    @NotBlank(message = "用户名不能为空")
     @ApiModelProperty(value = "用户名")
     private String username;
 
-    @NotBlank(message = "密码不能为空")
     @ApiModelProperty(value = "密码")
     private String password;
 
     @ApiModelProperty(value = "电话号码")
-    private Long phoneNum;
+    private String phoneNum;
+
+    @ApiModelProperty(value = "部门id")
+    private String deptId;
 
     @ApiModelProperty(value = "头像")
     private String avatar;
+
+    @ApiModelProperty(value = "安全积分（如果为负，则要重新学习）")
+    private Integer score;
 
     @ApiModelProperty(value = "最近登录时间")
     private Date lastLogin;
@@ -60,9 +55,11 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
-    @ApiModelProperty(value = "状态")
-    @TableLogic
+    @ApiModelProperty(value = "用户状态(0-未登录,1-已登录，2-已冻结)")
     private Integer status;
+
+    @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
+    private Integer  isDeleted;
 
 
 }

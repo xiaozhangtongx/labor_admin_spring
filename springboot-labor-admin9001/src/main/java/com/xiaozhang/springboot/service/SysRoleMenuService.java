@@ -1,6 +1,6 @@
 package com.xiaozhang.springboot.service;
 
-import com.xiaozhang.springboot.domain.SysRoleNemu;
+import com.xiaozhang.springboot.domain.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-02-27
+ * @since 2023-03-19
  */
-public interface SysRoleNemuService extends IService<SysRoleNemu> {
+public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
 }

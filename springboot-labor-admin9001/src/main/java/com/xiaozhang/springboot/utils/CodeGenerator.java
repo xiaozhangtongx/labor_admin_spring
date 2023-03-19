@@ -51,9 +51,7 @@ public class CodeGenerator {
         gc.setFileOverride(true);//是否覆盖以前文件
         gc.setAuthor("xiaozhangtx");
         gc.setOpen(false); //打开输出目录
-        gc.setIdType(IdType.AUTO); //设置主键策略
-        gc.setBaseResultMap(true); //xml开启 BaseResultMap
-        gc.setBaseColumnList(true); //xml 开启BaseColumnList
+        gc.setIdType(IdType.ASSIGN_UUID); //设置主键策略
         gc.setServiceName("%sService");//去掉服务默认前缀
         gc.setSwagger2(true); // 实体属性 Swagger2 注解
         gc.setDateType(DateType.ONLY_DATE);
@@ -112,12 +110,12 @@ public class CodeGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel); // 数据库表映射到实体的命名策略
-        strategy.setColumnNaming(NamingStrategy.no_change);// 数据库表字段映射到实体的命名策略
+        strategy.setColumnNaming(NamingStrategy.underline_to_camel);// 数据库表字段映射到实体的命名策略
         strategy.setEntityLombokModel(true);//lombok模型
         strategy.setRestControllerStyle(true); //生成 @RestController 控制器
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
-        strategy.setLogicDeleteFieldName("status");//设置逻辑删除
-//        strategy.setControllerMappingHyphenStyle(true);
+        strategy.setLogicDeleteFieldName("is_deleted");//设置逻辑删除
+        strategy.setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
