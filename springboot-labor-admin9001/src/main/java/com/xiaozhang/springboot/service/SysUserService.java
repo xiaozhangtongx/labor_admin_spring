@@ -1,7 +1,10 @@
 package com.xiaozhang.springboot.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysUser;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,6 @@ public interface SysUserService extends IService<SysUser> {
     SysUser getByPhoneNum(String phoneNum);
 
     SysUser getInfoByPhoneNum(String phoneNum);
+
+    List<SysRole> getUserRoles(String id);
 }

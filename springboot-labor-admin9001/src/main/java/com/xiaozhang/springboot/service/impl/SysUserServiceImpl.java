@@ -82,8 +82,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = getByPhoneNum(phoneNum);
         if (sysUser != null) {
             List<SysRole> roleList = getUserRoles(sysUser.getId());
-            List<String> roleCodes = roleList.stream().map(r -> r.getRoleCode()).collect(Collectors.toList());
-            sysUser.setRoles(roleCodes);
+            sysUser.setRoles(roleList);
         }
         return sysUser;
     }
@@ -94,7 +93,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param userId
      * @return
      */
-    private List<SysRole> getUserRoles(String userId) {
+    @Override
+    public List<SysRole> getUserRoles(String userId) {
         return sysUserMapper.getRoleList(userId);
     }
 }

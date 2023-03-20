@@ -76,5 +76,5 @@ public class SysMenu implements Serializable {
     @JsonIgnore
     @TableLogic
     private Integer isDeleted;
-    
+
 }

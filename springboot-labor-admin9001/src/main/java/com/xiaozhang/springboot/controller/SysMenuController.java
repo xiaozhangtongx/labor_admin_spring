@@ -1,7 +1,6 @@
 package com.xiaozhang.springboot.controller;
 
 
-import cn.hutool.core.map.MapUtil;
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysMenu;
 import com.xiaozhang.springboot.domain.SysUser;
@@ -40,14 +39,8 @@ public class SysMenuController {
     @ApiOperation("获取菜单,需要token")
     public Result getMenuList(Principal principal) {
         SysUser sysUser = sysUserService.getByPhoneNum(principal.getName());
-        // 获取导航栏信息
         List<SysMenu> navs = sysMenuService.getCurrentUserNavList(sysUser.getId());
 
-        return Result.success(200, "菜单获取成功",
-                MapUtil.builder()
-                        .put("navs", navs)
-                        .map(),
-                ""
-        );
+        return Result.success(200, "菜单获取成功", navs, "");
     }
 }

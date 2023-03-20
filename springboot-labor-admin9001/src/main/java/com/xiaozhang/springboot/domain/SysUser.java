@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class SysUser implements Serializable {
 
     @ApiModelProperty(value = "密码")
     @NotBlank(message = "密码不能为空")
+    @JsonIgnore
     private String password;
 
     @ApiModelProperty(value = "电话号码")
@@ -55,23 +57,26 @@ public class SysUser implements Serializable {
     private Integer score;
 
     @ApiModelProperty(value = "最近登录时间")
+    @JsonIgnore
     private Date lastLogin;
 
     @ApiModelProperty(value = "创建时间")
+    @JsonIgnore
     private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
+    @JsonIgnore
     private Date updateTime;
 
     @ApiModelProperty(value = "用户状态(0-未登录,1-已登录，2-已冻结)")
     private Integer status;
 
     @TableField(exist = false)
-    private List<String> roles;
+    private List<SysRole> roles;
 
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
     @TableField("is_deleted")
+    @JsonIgnore
     @TableLogic()
     private Integer isDeleted;
-
 }
