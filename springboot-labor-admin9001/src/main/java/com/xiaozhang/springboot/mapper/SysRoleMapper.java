@@ -1,7 +1,7 @@
 package com.xiaozhang.springboot.mapper;
 
-import com.xiaozhang.springboot.domain.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xiaozhang.springboot.domain.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

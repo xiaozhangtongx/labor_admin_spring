@@ -34,7 +34,7 @@ public class SysUserController {
     @GetMapping("/userInfo")
     @ApiOperation("获取用户信息,需要token")
     public Result getUserInfo(Principal principal) {
-        SysUser sysUser = sysUserService.getByPhoneNum(principal.getName());
+        SysUser sysUser = sysUserService.getInfoByPhoneNum(principal.getName());
 
         return Result.success(200, "用户信息获取成功",
                 MapUtil.builder()
@@ -42,6 +42,7 @@ public class SysUserController {
                         .put("username", sysUser.getUsername())
                         .put("avatar", sysUser.getAvatar())
                         .put("phoneNum", sysUser.getPhoneNum())
+                        .put("roles", sysUser.getRoles())
                         .put("status", sysUser.getStatus())
                         .map(),
                 ""

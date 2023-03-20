@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -33,12 +34,15 @@ public class SysUser implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "用户名")
+    @NotBlank(message = "用户名不能为空")
     private String username;
 
     @ApiModelProperty(value = "密码")
+    @NotBlank(message = "密码不能为空")
     private String password;
 
     @ApiModelProperty(value = "电话号码")
+    @NotBlank(message = "电话号码不能为空")
     private String phoneNum;
 
     @ApiModelProperty(value = "部门id")
@@ -63,7 +67,7 @@ public class SysUser implements Serializable {
     private Integer status;
 
     @TableField(exist = false)
-    private List<SysRole> roles;
+    private List<String> roles;
 
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
     @TableField("is_deleted")

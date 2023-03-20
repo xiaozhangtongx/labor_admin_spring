@@ -15,4 +15,6 @@ public interface SysUserService extends IService<SysUser> {
     String getUserAuthorityInfo(String userId);
 
     SysUser getByPhoneNum(String phoneNum);
+
+    SysUser getInfoByPhoneNum(String phoneNum);
 }
