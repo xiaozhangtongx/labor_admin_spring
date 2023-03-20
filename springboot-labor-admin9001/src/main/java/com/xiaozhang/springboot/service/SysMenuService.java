@@ -3,6 +3,8 @@ package com.xiaozhang.springboot.service;
 import com.xiaozhang.springboot.domain.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜单表 服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysMenuService extends IService<SysMenu> {
 
+    List<SysMenu> getCurrentUserNavList(String id);
 }

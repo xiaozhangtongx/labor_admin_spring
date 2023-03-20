@@ -3,6 +3,7 @@ package com.xiaozhang.springboot.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -40,12 +41,15 @@ public class SysRole implements Serializable {
     private String roleCode;
 
     @ApiModelProperty(value = "创建时间")
+    @JsonIgnore
     private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
+    @JsonIgnore
     private Date updateTime;
 
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
+    @JsonIgnore
     @TableLogic
     private Integer isDeleted;
 

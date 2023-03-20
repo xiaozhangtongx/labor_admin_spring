@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-    List<Long> getNavMenuIds(String userId);
+    List<String> getNavMenuIds(String userId);
 
     List<SysRole> getRoleList(String userId);
 }
