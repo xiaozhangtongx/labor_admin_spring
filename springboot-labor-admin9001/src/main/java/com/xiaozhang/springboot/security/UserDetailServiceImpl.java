@@ -20,15 +20,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
     SysUserService sysUserService;
 
     @Override
-    public AccountUser loadUserByUsername(String username) throws UsernameNotFoundException {
+    public AccountUser loadUserByUsername(String phoneNum) throws UsernameNotFoundException {
 
-        SysUser sysUser = sysUserService.getByUserName(username);
+        SysUser sysUser = sysUserService.getByPhoneNum(phoneNum);
 
         if (sysUser == null) {
-            throw new UsernameNotFoundException("用户名或密码不正确");
+            throw new UsernameNotFoundException("手机号或密码不正确");
         }
 
-        return new AccountUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), getUserAuthority(sysUser.getId()));
+        return new AccountUser(sysUser.getId(), sysUser.getPhoneNum(), sysUser.getPassword(), getUserAuthority(sysUser.getId()));
     }
 
     /**

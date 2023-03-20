@@ -45,9 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtAccessDeniedHandler jwtAccessDeniedHandler;
     @Autowired
-    MyAuthenticationProvider myAuthenticationProvider;
-    @Autowired
     JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
+    @Autowired
+    private UserDetailServiceImpl userDetailsService;
 
     @Bean
     JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
@@ -73,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 登录配置
                 .and()
                 .formLogin()
+                .loginPage("/login").usernameParameter("phoneNum").passwordParameter("password")
                 .successHandler(loginSuccessHandler)
                 .failureHandler(loginFailureHandler)
 
@@ -102,6 +103,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(myAuthenticationProvider);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 }

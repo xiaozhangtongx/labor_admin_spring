@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public class AccountUser implements UserDetails {
 
-    private final String username;
+    private final String phoneNum;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean accountNonExpired;
     private final boolean accountNonLocked;
@@ -20,18 +20,18 @@ public class AccountUser implements UserDetails {
     private final String userId;
     private final String password;
 
-    public AccountUser(String userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        this(userId, username, password, true, true, true, true, authorities);
+    public AccountUser(String userId, String phoneNum, String password, Collection<? extends GrantedAuthority> authorities) {
+        this(userId, phoneNum, password, true, true, true, true, authorities);
     }
 
 
-    public AccountUser(String userId, String username, String password, boolean enabled, boolean accountNonExpired,
+    public AccountUser(String userId, String phoneNum, String password, boolean enabled, boolean accountNonExpired,
                        boolean credentialsNonExpired, boolean accountNonLocked,
                        Collection<? extends GrantedAuthority> authorities) {
-        Assert.isTrue(username != null && !"".equals(username) && password != null,
+        Assert.isTrue(phoneNum != null && !"".equals(phoneNum) && password != null,
                 "Cannot pass null or empty values to constructor");
         this.userId = userId;
-        this.username = username;
+        this.phoneNum = phoneNum;
         this.password = password;
         this.enabled = enabled;
         this.accountNonExpired = accountNonExpired;
@@ -53,7 +53,7 @@ public class AccountUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.phoneNum;
     }
 
     @Override

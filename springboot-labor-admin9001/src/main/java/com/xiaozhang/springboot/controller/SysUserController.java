@@ -1,9 +1,19 @@
 package com.xiaozhang.springboot.controller;
 
 
+import cn.hutool.core.map.MapUtil;
+import com.xiaozhang.springboot.common.lang.Result;
+import com.xiaozhang.springboot.domain.SysUser;
+import com.xiaozhang.springboot.service.impl.SysUserServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 /**
  * <p>
@@ -14,7 +24,27 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-03-19
  */
 @RestController
+@Api(tags = "用户接口")
 @RequestMapping("/sys-user")
+@Slf4j
 public class SysUserController {
+    @Autowired
+    SysUserServiceImpl sysUserService;
 
+    @GetMapping("/userInfo")
+    @ApiOperation("获取用户信息,需要token")
+    public Result getUserInfo(Principal principal) {
+        SysUser sysUser = sysUserService.getByPhoneNum(principal.getName());
+
+        return Result.success(200, "用户信息获取成功",
+                MapUtil.builder()
+                        .put("id", sysUser.getId())
+                        .put("username", sysUser.getUsername())
+                        .put("avatar", sysUser.getAvatar())
+                        .put("phoneNum", sysUser.getPhoneNum())
+                        .put("status", sysUser.getStatus())
+                        .map(),
+                ""
+        );
+    }
 }

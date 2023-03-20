@@ -1,13 +1,17 @@
 package com.xiaozhang.springboot.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -19,7 +23,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysUser对象", description="用户表")
+@ApiModel(value = "SysUser对象", description = "用户表")
 public class SysUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,8 +62,12 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "用户状态(0-未登录,1-已登录，2-已冻结)")
     private Integer status;
 
-    @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
-    private Integer  isDeleted;
+    @TableField(exist = false)
+    private List<SysRole> roles;
 
+    @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
+    @TableField("is_deleted")
+    @TableLogic()
+    private Integer isDeleted;
 
 }
