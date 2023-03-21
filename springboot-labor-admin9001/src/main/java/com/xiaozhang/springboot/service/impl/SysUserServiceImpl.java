@@ -97,4 +97,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public List<SysRole> getUserRoles(String userId) {
         return sysUserMapper.getRoleList(userId);
     }
+
+    /**
+     * 清除用户权限信息
+     *
+     * @param phoneNum
+     */
+    @Override
+    public void clearUserAuthorityInfo(String phoneNum) {
+
+    }
+
+    /**
+     * 批量逻辑删除用户
+     *
+     * @param idList
+     */
+    @Override
+    public void deleteByIds(List<String> idList) {
+        sysUserMapper.deleteBatchIds(idList);
+    }
 }

@@ -22,4 +22,8 @@ public interface SysUserService extends IService<SysUser> {
     SysUser getInfoByPhoneNum(String phoneNum);
 
     List<SysRole> getUserRoles(String id);
+
+    void clearUserAuthorityInfo(String phoneNum);
+
+    void deleteByIds(List<String> asList);
 }

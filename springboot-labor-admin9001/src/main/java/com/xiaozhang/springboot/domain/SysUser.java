@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "SysUser对象", description = "用户表")
 public class SysUser implements Serializable {
 
@@ -40,8 +42,11 @@ public class SysUser implements Serializable {
 
     @ApiModelProperty(value = "密码")
     @NotBlank(message = "密码不能为空")
-    @JsonIgnore
     private String password;
+
+    @ApiModelProperty(value = "当前密码")
+    @TableField(exist = false)
+    private String oldPassword;
 
     @ApiModelProperty(value = "电话号码")
     @NotBlank(message = "电话号码不能为空")
