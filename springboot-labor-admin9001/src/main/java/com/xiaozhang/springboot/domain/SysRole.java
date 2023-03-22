@@ -42,6 +42,9 @@ public class SysRole implements Serializable {
     @NotBlank(message = "角色编码不能为空")
     private String roleCode;
 
+    @ApiModelProperty(value = "角色描述")
+    private String des;
+
     @ApiModelProperty(value = "创建时间")
     @JsonIgnore
     @CreatedDate

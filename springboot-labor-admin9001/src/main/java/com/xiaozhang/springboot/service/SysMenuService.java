@@ -1,7 +1,7 @@
 package com.xiaozhang.springboot.service;
 
-import com.xiaozhang.springboot.domain.SysMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaozhang.springboot.domain.SysMenu;
 
 import java.util.List;
 
@@ -15,5 +15,26 @@ import java.util.List;
  */
 public interface SysMenuService extends IService<SysMenu> {
 
+    /**
+     * 获取当前用户的菜单
+     *
+     * @param id
+     * @return
+     */
     List<SysMenu> getCurrentUserNavList(String id);
+
+    /**
+     * 将list转化为tree
+     *
+     * @return
+     */
+    List<SysMenu> list2tree();
+
+    /**
+     * 删除菜单
+     *
+     * @param id
+     * @return
+     */
+    Boolean deleteById(String id);
 }

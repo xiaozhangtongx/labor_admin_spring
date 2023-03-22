@@ -1,5 +1,7 @@
 package com.xiaozhang.springboot.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhang.springboot.domain.SysMenu;
 import com.xiaozhang.springboot.mapper.SysMenuMapper;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,19 +30,34 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Autowired(required = false)
     SysUserMapper sysUserMapper;
 
-    /**
-     * 获取菜单信息
-     *
-     * @param userId
-     * @return List<SysMenu>
-     */
+    @Autowired(required = false)
+    SysMenuMapper sysMenuMapper;
+
+
     @Override
     public List<SysMenu> getCurrentUserNavList(String userId) {
+
         List<String> navMenuIds = sysUserMapper.getNavMenuIds(userId);
         List<SysMenu> menus = listByIds(navMenuIds);
         List<SysMenu> menuTree = buildTreeMenu(menus);
 
         return menuTree;
+    }
+
+    @Override
+    public List<SysMenu> list2tree() {
+
+        List<SysMenu> sysMenus = this.list(new QueryWrapper<SysMenu>().orderByAsc("order_num"));
+
+        return buildTreeMenu(sysMenus);
+    }
+
+    @Override
+    public Boolean deleteById(String id) {
+
+        Integer lines = sysMenuMapper.deleteById(id);
+
+        return lines != 0;
     }
 
 
@@ -50,12 +68,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return
      */
     private List<SysMenu> buildTreeMenu(List<SysMenu> menus) {
+
         List<SysMenu> finalMenus = new ArrayList<>();
 
         for (SysMenu menu : menus) {
             for (SysMenu e : menus) {
                 if (menu.getId().equals(e.getParentId())) {
-                    menu.getChildren().add(e);
+                    if (ObjectUtil.isNull(menu.getChildren())) {
+                        menu.setChildren(Arrays.asList(e));
+                    } else {
+                        menu.getChildren().add(e);
+                    }
                 }
             }
 
