@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -86,7 +87,7 @@ public class SysUserController {
     }
 
     @GetMapping("/info/{id}")
-    @ApiOperation("通过id获取用户列表,需要token")
+    @ApiOperation("通过id获取用户,需要token")
     public Result getUserInfoById(@PathVariable("id") String id) {
 
         SysUser sysUser = sysUserService.getById(id);
@@ -100,7 +101,7 @@ public class SysUserController {
 
     @PostMapping("/add")
     @ApiOperation("添加用户,需要token")
-    public Result add(@RequestBody SysUser sysUser) {
+    public Result add(@Validated @RequestBody SysUser sysUser) {
 
         SysUser user = sysUserService.getInfoByPhoneNum(sysUser.getPhoneNum());
 
@@ -163,11 +164,23 @@ public class SysUserController {
         return Result.success("密码重置成功");
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
+    @ApiOperation("批量删除用户,需要token")
     public Result delete(@RequestBody String[] ids) {
 
-        sysUserService.deleteByIds(Arrays.asList(ids));
+        Boolean flag = sysUserService.deleteByIds(Arrays.asList(ids));
 
-        return Result.success("删除成功");
+        return flag ? Result.success("删除成功") : Result.fail("删除失败");
     }
+
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation("注销用户,需要token")
+    public Result delete(@PathVariable String id) {
+
+        Boolean flag = sysUserService.deleteByIds(Arrays.asList(id));
+
+        return flag ? Result.success("删除成功") : Result.fail("删除失败");
+    }
+
 }

@@ -15,15 +15,51 @@ import java.util.List;
  * @since 2023-03-19
  */
 public interface SysUserService extends IService<SysUser> {
+
+    /**
+     * 通过id查找用户权限
+     *
+     * @param userId
+     * @return 用户权限
+     */
     String getUserAuthorityInfo(String userId);
 
+    /**
+     * 通过手机号查询用户
+     *
+     * @param phoneNum
+     * @return
+     */
     SysUser getByPhoneNum(String phoneNum);
 
+    /**
+     * 通过手机号查询用户信息
+     *
+     * @param phoneNum
+     * @return
+     */
     SysUser getInfoByPhoneNum(String phoneNum);
 
+    /**
+     * 获取用户角色
+     *
+     * @param id
+     * @return
+     */
     List<SysRole> getUserRoles(String id);
 
+    /**
+     * 清除用户权限
+     *
+     * @param phoneNum
+     */
     void clearUserAuthorityInfo(String phoneNum);
 
-    void deleteByIds(List<String> asList);
+    /**
+     * 通过id批量删除角色
+     *
+     * @param asList
+     * @return
+     */
+    Boolean deleteByIds(List<String> asList);
 }

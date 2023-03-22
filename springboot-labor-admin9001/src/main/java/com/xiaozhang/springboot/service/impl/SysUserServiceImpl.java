@@ -36,12 +36,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     SysRoleService sysRoleService;
 
-    /**
-     * 通过id查找用户权限
-     *
-     * @param userId
-     * @return 用户权限
-     */
     @Override
     public String getUserAuthorityInfo(String userId) {
         SysUser sysUser = sysUserMapper.selectById(userId);
@@ -49,7 +43,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         //  ROLE_admin,ROLE_normal,sys:user:list,....
         String authority = "";
 
-        // 获取角色编码
         List<SysRole> roles = getUserRoles(sysUser.getId());
 
         if (roles.size() > 0) {
@@ -60,23 +53,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return authority;
     }
 
-    /**
-     * 通过手机号码查找用户
-     *
-     * @param phoneNum
-     * @return 用户信息
-     */
+
     @Override
     public SysUser getByPhoneNum(String phoneNum) {
         return getOne(new QueryWrapper<SysUser>().eq("phone_num", phoneNum));
     }
 
-    /**
-     * 获取用户信息
-     *
-     * @param phoneNum
-     * @return
-     */
     @Override
     public SysUser getInfoByPhoneNum(String phoneNum) {
         SysUser sysUser = getByPhoneNum(phoneNum);
@@ -87,34 +69,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return sysUser;
     }
 
-    /**
-     * 获取用户角色
-     *
-     * @param userId
-     * @return
-     */
     @Override
     public List<SysRole> getUserRoles(String userId) {
         return sysUserMapper.getRoleList(userId);
     }
 
-    /**
-     * 清除用户权限信息
-     *
-     * @param phoneNum
-     */
     @Override
     public void clearUserAuthorityInfo(String phoneNum) {
 
     }
 
-    /**
-     * 批量逻辑删除用户
-     *
-     * @param idList
-     */
     @Override
-    public void deleteByIds(List<String> idList) {
-        sysUserMapper.deleteBatchIds(idList);
+    public Boolean deleteByIds(List<String> idList) {
+        Integer lines = sysUserMapper.deleteBatchIds(idList);
+        return lines != 0;
     }
 }

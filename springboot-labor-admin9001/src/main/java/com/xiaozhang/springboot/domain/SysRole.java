@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -42,16 +44,17 @@ public class SysRole implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @JsonIgnore
+    @CreatedDate
     private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     @JsonIgnore
+    @LastModifiedDate
     private Date updateTime;
 
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
     @JsonIgnore
     @TableLogic
     private Integer isDeleted;
-
 
 }
