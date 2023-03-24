@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaozhang.springboot.mapper.SysMenuMapper">
 
+    <select id="getMenuList" resultType="com.xiaozhang.springboot.domain.SysMenu">
+        SELECT id,
+               menu_name
+        FROM sys_menu
+        WHERE is_deleted = 0
+          AND (
+            id IN (SELECT menu_id FROM sys_role_menu WHERE role_id = #{roleId}))
+    </select>
 </mapper>

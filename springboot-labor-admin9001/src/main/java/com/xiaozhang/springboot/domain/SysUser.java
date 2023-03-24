@@ -76,12 +76,14 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "用户状态(0-未登录,1-已登录，2-已冻结)")
     private Integer status;
 
-    @TableField(exist = false)
-    private List<SysRole> roles;
-
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
     @TableField("is_deleted")
     @JsonIgnore
     @TableLogic()
     private Integer isDeleted;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "用户角色列表")
+    private List<SysRole> roles;
+
 }

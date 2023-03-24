@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -59,5 +61,9 @@ public class SysRole implements Serializable {
     @JsonIgnore
     @TableLogic
     private Integer isDeleted;
+
+    @ApiModelProperty(value = "角色列表")
+    @TableField(exist = false)
+    private List<SysMenu> menus;
 
 }

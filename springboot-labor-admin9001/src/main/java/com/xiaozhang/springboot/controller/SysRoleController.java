@@ -7,7 +7,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysRole;
+import com.xiaozhang.springboot.domain.SysRoleMenu;
+import com.xiaozhang.springboot.domain.SysUserRole;
+import com.xiaozhang.springboot.service.SysMenuService;
+import com.xiaozhang.springboot.service.SysRoleMenuService;
 import com.xiaozhang.springboot.service.SysRoleService;
+import com.xiaozhang.springboot.service.SysUserRoleService;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -39,6 +44,9 @@ public class SysRoleController {
     @Autowired
     SysRoleService sysRoleService;
 
+    @Autowired
+    SysRoleMenuService sysRoleMenuService;
+
     @GetMapping("/info/{roleName}")
     @ApiOperation("获取角色信息(通过角色名),需要token")
     public Result getRoleInfoByName(@PathVariable String roleName) {
@@ -61,10 +69,15 @@ public class SysRoleController {
                         .like(StrUtil.isNotBlank(roleName), "role_name", roleName)
         );
 
+        pageData.getRecords().forEach(role -> {
+            role.setMenus(sysRoleMenuService.getMenuList(role.getId()));
+        });
+
         return Result.success(200, "用户列表获取成功", pageData, "");
     }
 
     @PostMapping("/add")
+    @Transactional(rollbackFor = Exception.class)
     @ApiOperation("添加角色,需要token")
     public Result add(@Validated @RequestBody SysRole sysRole) {
 
@@ -75,6 +88,7 @@ public class SysRoleController {
 
             return Result.fail("该角色/编码已经被使用了");
         } else {
+            sysRoleService.save(roleInfoByName);
             sysRole.setCreateTime(new Date());
             sysRoleService.save(sysRole);
 

@@ -10,6 +10,7 @@ import com.xiaozhang.springboot.common.lang.Const;
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysUser;
+import com.xiaozhang.springboot.domain.SysUserRole;
 import com.xiaozhang.springboot.service.SysUserRoleService;
 import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
@@ -25,6 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -100,6 +102,7 @@ public class SysUserController {
     }
 
     @PostMapping("/add")
+    @Transactional(rollbackFor = Exception.class)
     @ApiOperation("添加用户,需要token")
     public Result add(@Validated @RequestBody SysUser sysUser) {
 
@@ -108,6 +111,16 @@ public class SysUserController {
         if (ObjectUtil.isNotNull(user)) {
             return Result.fail("该手机号已经被注册了");
         } else {
+            List<SysUserRole> list = new ArrayList<>();
+            sysUser.getRoles().forEach(role -> {
+                SysUserRole sysUserRole = new SysUserRole();
+                sysUserRole.setRoleId(role.getId());
+                sysUserRole.setUserId(sysUser.getId());
+                list.add(sysUserRole);
+            });
+            // 批量插入
+            sysUserRoleService.saveBatch(list);
+
             sysUser.setCreateTime(new Date());
             String password = passwordEncoder.encode(sysUser.getPassword());
             sysUser.setPassword(password);
@@ -119,13 +132,25 @@ public class SysUserController {
     }
 
     @PutMapping("/update/info")
+    @Transactional(rollbackFor = Exception.class)
     @ApiOperation("修改用户信息,需要token")
     public Result update(@RequestBody SysUser sysUser) {
 
-        sysUser.setUpdateTime(new Date());
-        sysUserService.updateById(sysUser);
+        // 更新角色
+        List<SysUserRole> roleList = new ArrayList<>();
 
-        return Result.success(200, "修改成功", sysUser, "");
+        sysUser.getRoles().forEach(role -> {
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setRoleId(role.getId());
+            sysUserRole.setUserId(sysUser.getId());
+            roleList.add(sysUserRole);
+        });
+        sysUserRoleService.updateBatchById(roleList);
+
+        sysUser.setUpdateTime(new Date());
+        boolean flag = sysUserService.updateById(sysUser);
+
+        return flag ? Result.success(200, "修改成功", sysUser, "") : Result.fail("修改失败");
     }
 
     @PutMapping("/updatePass")

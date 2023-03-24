@@ -1,11 +1,14 @@
 package com.xiaozhang.springboot.service;
 
-import com.xiaozhang.springboot.domain.SysRoleMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaozhang.springboot.domain.SysMenu;
+import com.xiaozhang.springboot.domain.SysRoleMenu;
+
+import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author xiaozhangtx
@@ -13,4 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
+    /**
+     * 查询角色下的所有menu
+     *
+     * @param id
+     * @return
+     */
+    List<SysMenu> getMenuList(String id);
 }
