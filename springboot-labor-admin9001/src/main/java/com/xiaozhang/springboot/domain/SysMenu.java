@@ -44,6 +44,10 @@ public class SysMenu implements Serializable {
     @NotBlank(message = "菜单名称不能为空")
     private String menuName;
 
+    @ApiModelProperty(value = "菜单标题")
+    @NotBlank(message = "菜单标题不能为空")
+    private String menuTitle;
+
     @ApiModelProperty(value = "菜单URL")
     private String menuPath;
 
