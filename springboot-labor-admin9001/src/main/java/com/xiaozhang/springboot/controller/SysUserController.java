@@ -3,7 +3,6 @@ package com.xiaozhang.springboot.controller;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Const;
@@ -78,7 +77,7 @@ public class SysUserController {
     public Result list(@RequestParam String username) {
 
         Page<SysUser> pageData = sysUserService.page(pageUtil.getPage(), new QueryWrapper<SysUser>()
-                .like(StrUtil.isNotBlank(username), "username", username));
+                .like("username", username));
 
         pageData.getRecords().forEach(user -> {
             user.setRoles(sysUserService.getUserRoles(user.getId()));
