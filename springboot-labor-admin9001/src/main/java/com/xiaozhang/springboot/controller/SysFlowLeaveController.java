@@ -7,6 +7,7 @@ import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysFlowLeave;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.service.SysFlowLeaveService;
+import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,6 +35,9 @@ public class SysFlowLeaveController {
     SysFlowLeaveService sysFlowLeaveService;
 
     @Autowired
+    SysUserService sysUserService;
+
+    @Autowired
     PageUtils pageUtil;
 
     @PostMapping("/add")
@@ -57,6 +61,12 @@ public class SysFlowLeaveController {
 
         Page<SysFlowLeave> pageData = sysFlowLeaveService.page(pageUtil.getPage(), new QueryWrapper<SysFlowLeave>()
                 .eq("user_id", userId));
+
+        pageData.getRecords().forEach(leaveFlow -> {
+            SysUser leader = sysUserService.getById(leaveFlow.getLeaderId());
+            leader.setPassword("");
+            leaveFlow.setLeader(leader);
+        });
 
         return Result.success(200, "请假列表获取成功", pageData, "");
     }

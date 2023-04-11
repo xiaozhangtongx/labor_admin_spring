@@ -9,6 +9,7 @@ import com.xiaozhang.springboot.domain.SysFlowLeave;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.service.SysFlowCancelService;
 import com.xiaozhang.springboot.service.SysFlowLeaveService;
+import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,6 +39,9 @@ public class SysFlowCancelController {
 
     @Autowired
     SysFlowLeaveService sysFlowLeaveService;
+
+    @Autowired
+    SysUserService sysUserService;
 
     @Autowired
     PageUtils pageUtil;
@@ -70,6 +74,12 @@ public class SysFlowCancelController {
 
         Page<SysFlowCancel> pageData = sysFlowCancelService.page(pageUtil.getPage(), new QueryWrapper<SysFlowCancel>()
                 .eq("user_id", userId));
+
+        pageData.getRecords().forEach(cancelFlow -> {
+            SysUser leader = sysUserService.getById(cancelFlow.getLeaderId());
+            leader.setPassword("");
+            cancelFlow.setLeader(leader);
+        });
 
         return Result.success(200, "销假列表获取成功", pageData, "");
     }
