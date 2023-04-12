@@ -8,6 +8,7 @@ import com.xiaozhang.springboot.domain.SysFlowApproval;
 import com.xiaozhang.springboot.service.SysFlowApprovalService;
 import com.xiaozhang.springboot.service.SysFlowCancelService;
 import com.xiaozhang.springboot.service.SysFlowLeaveService;
+import com.xiaozhang.springboot.service.SysFlowOvertimeService;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -45,6 +46,9 @@ public class SysFlowApprovalController {
     SysFlowCancelService sysFlowCancelService;
 
     @Autowired
+    SysFlowOvertimeService sysFlowOvertimeService;
+
+    @Autowired
     PageUtils pageUtil;
 
     @PutMapping("/update")
@@ -66,12 +70,17 @@ public class SysFlowApprovalController {
                 String applicationType = flowApprovalById.getApplicationType();
                 // 根据审批类型处理对应的方法
                 switch (applicationType) {
+                    // 处理请假
                     case "0":
                         sysFlowLeaveService.updateStatus(sysFlowApproval.getApprovalResult(), flowApprovalById.getApplicationId());
                         break;
-
+                    // 处理销假
                     case "1":
                         sysFlowCancelService.updateStatus(sysFlowApproval.getApprovalResult(), flowApprovalById.getApplicationId());
+                        break;
+                    // 处理加班
+                    case "2":
+                        sysFlowOvertimeService.updateStatus(sysFlowApproval.getApprovalResult(), flowApprovalById.getApplicationId());
                         break;
 
                     default:
@@ -96,7 +105,7 @@ public class SysFlowApprovalController {
     })
     public Result list(@RequestParam String approverId, Integer status) {
         Page<SysFlowApproval> pageData = sysFlowApprovalService.page(pageUtil.getPage(), new QueryWrapper<SysFlowApproval>()
-                .eq("approver_id", approverId).like("status", status == null ? "" : status));
+                .like("approver_id", approverId).like("status", status == null ? "" : status));
 
         return Result.success(200, "审批列表获取成功", pageData, "");
     }

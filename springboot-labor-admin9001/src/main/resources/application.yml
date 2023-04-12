@@ -8,6 +8,8 @@ server:
 spring:
   application:
     name: labor-admin-server
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
