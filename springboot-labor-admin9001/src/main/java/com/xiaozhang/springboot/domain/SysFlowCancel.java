@@ -51,4 +51,7 @@ public class SysFlowCancel implements Serializable {
     @TableField(exist = false)
     @ApiModelProperty(value = "审批领导")
     private SysUser leader;
+
+    @ApiModelProperty(value = "请假状态（2-待审批/0-已批准/1-已拒绝）")
+    private Integer status;
 }

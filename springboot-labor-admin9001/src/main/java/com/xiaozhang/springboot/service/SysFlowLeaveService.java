@@ -1,7 +1,7 @@
 package com.xiaozhang.springboot.service;
 
-import com.xiaozhang.springboot.domain.SysFlowLeave;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaozhang.springboot.domain.SysFlowLeave;
 
 /**
  * <p>
@@ -13,4 +13,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysFlowLeaveService extends IService<SysFlowLeave> {
 
+    /**
+     * 设置请假表的状态
+     *
+     * @param approvalResult
+     * @param applicationId
+     * @return
+     */
+    boolean updateStatus(Integer approvalResult, String applicationId);
 }

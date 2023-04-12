@@ -1,10 +1,13 @@
 package com.xiaozhang.springboot.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhang.springboot.domain.SysFlowCancel;
 import com.xiaozhang.springboot.mapper.SysFlowCancelMapper;
 import com.xiaozhang.springboot.service.SysFlowCancelService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -17,4 +20,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysFlowCancelServiceImpl extends ServiceImpl<SysFlowCancelMapper, SysFlowCancel> implements SysFlowCancelService {
 
+    @Autowired
+    SysFlowCancelService sysFlowCancelService;
+
+    @Override
+    public boolean updateStatus(Integer approvalResult, String applicationId) {
+
+        SysFlowCancel flowCancelById = sysFlowCancelService.getById(applicationId);
+        flowCancelById.setStatus(approvalResult);
+        flowCancelById.setUpdateTime(new Date());
+
+        return sysFlowCancelService.updateById(flowCancelById);
+    }
 }

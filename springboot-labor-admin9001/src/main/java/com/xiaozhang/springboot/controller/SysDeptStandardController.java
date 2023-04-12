@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/sys-dept")
-@Api(tags = "部门打卡标准接口")
+@Api(tags = "部门接口")
 @Slf4j
 public class SysDeptStandardController {
 
@@ -32,7 +32,7 @@ public class SysDeptStandardController {
     SysDeptStandardService sysDeptStandardService;
 
     @GetMapping("/standard")
-    @ApiOperation("部门打开标准，需要token")
+    @ApiOperation("部门打卡标准，需要token")
     public Result getDeptStandard(@RequestParam String deptId) {
 
         SysDeptStandard sysDeptStandard = sysDeptStandardService.getRuleById(deptId);

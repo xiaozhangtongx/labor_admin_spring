@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,24 +34,25 @@ public class SysFlowApproval implements Serializable {
     private String applicationId;
 
     @ApiModelProperty(value = "审批人ID")
+    @NotBlank(message = "审批人不能为空")
     private String approverId;
 
     @ApiModelProperty(value = "审批时间")
     private Date approvalTime;
 
-    @ApiModelProperty(value = "审批结果（同意/拒绝）")
-    private String approvalResult;
+    @ApiModelProperty(value = "审批结果（0-同意/1-拒绝）")
+    private Integer approvalResult;
 
     @ApiModelProperty(value = "审批意见")
+    @NotBlank(message = "意见不能为空")
     private String reason;
-
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
-    @ApiModelProperty(value = "审批类型")
+    @ApiModelProperty(value = "审批类型（0-请假，1-销假，2-加班，3-补办）")
     private String applicationType;
 
+    @ApiModelProperty(value = "处理状态（0-已处理/1-未处理）")
+    private Integer status;
 }
