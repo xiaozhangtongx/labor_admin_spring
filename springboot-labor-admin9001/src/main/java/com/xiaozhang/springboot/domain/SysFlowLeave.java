@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -38,15 +40,18 @@ public class SysFlowLeave implements Serializable {
     private String leaveType;
 
     @ApiModelProperty(value = "开始时间")
+    @NotNull(message = "开始时间不能为空")
     private Date startTime;
 
     @ApiModelProperty(value = "结束时间")
+    @NotNull(message = "结束时间不能为空")
     private Date endTime;
 
     @ApiModelProperty(value = "请假时长（单位：小时）")
-    private Integer duration;
+    private Long duration;
 
     @ApiModelProperty(value = "请假原因")
+    @NotBlank(message = "请假原因不能为空")
     private String reason;
 
     @ApiModelProperty(value = "请假状态（待审批/已批准/已拒绝）")

@@ -1,6 +1,9 @@
 package com.xiaozhang.springboot.controller;
 
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
@@ -14,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -42,9 +46,12 @@ public class SysFlowLeaveController {
 
     @PostMapping("/add")
     @ApiOperation("用户请假，需要token")
-    public Result addLeaveFlow(@RequestBody SysFlowLeave sysFlowLeave) {
+    public Result addLeaveFlow(@Validated @RequestBody SysFlowLeave sysFlowLeave) {
 
         sysFlowLeave.setCreateTime(new Date());
+        long between = DateUtil.between(sysFlowLeave.getStartTime(), sysFlowLeave.getEndTime(), DateUnit.DAY);
+        sysFlowLeave.setDuration(between);
+
         boolean save = sysFlowLeaveService.save(sysFlowLeave);
 
         return save ? Result.success("提交成功!") : Result.fail("提交失败!请稍后再试一次!");
