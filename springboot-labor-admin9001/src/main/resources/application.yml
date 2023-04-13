@@ -8,6 +8,9 @@ server:
 spring:
   application:
     name: labor-admin-server
+  task:
+    scheduling:
+      enabled=true: true
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   datasource:

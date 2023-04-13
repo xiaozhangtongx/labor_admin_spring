@@ -9,15 +9,13 @@ import com.xiaozhang.springboot.service.SysCheckService;
 import com.xiaozhang.springboot.service.SysDeptStandardService;
 import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.MathUtils;
+import com.xiaozhang.springboot.utils.SchedulerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -48,6 +46,9 @@ public class SysCheckController {
     @Autowired
     MathUtils mathUtils;
 
+    @Autowired
+    SchedulerUtils schedulerUtils;
+
     @PostMapping("/add")
     @ApiOperation("用户打卡,需要token")
     public Result addCheck(@RequestBody @Validated SysCheck sysCheck) {
@@ -77,4 +78,13 @@ public class SysCheckController {
             return Result.success("打卡成功!");
         }
     }
+
+    @GetMapping("/admin/check")
+    @ApiOperation("管理员手工校验,需要token")
+    public Result check() {
+
+        schedulerUtils.checkSysCheck();
+        return Result.success("校验成功");
+    }
+
 }

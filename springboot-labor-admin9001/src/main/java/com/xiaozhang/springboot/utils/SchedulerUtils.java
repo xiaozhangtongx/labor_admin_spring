@@ -1,0 +1,101 @@
+package com.xiaozhang.springboot.utils;
+
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xiaozhang.springboot.domain.SysCheck;
+import com.xiaozhang.springboot.domain.SysDeptStandard;
+import com.xiaozhang.springboot.domain.SysUser;
+import com.xiaozhang.springboot.mapper.SysCheckMapper;
+import com.xiaozhang.springboot.service.SysCheckService;
+import com.xiaozhang.springboot.service.SysDeptStandardService;
+import com.xiaozhang.springboot.service.SysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * @author: xiaozhangtx
+ * @ClassName: SchedulerUtils
+ * @Description: TODO 定时执行工具类
+ * @date: 2023/4/13 9:04
+ * @Version: 1.0
+ */
+@Component
+public class SchedulerUtils {
+
+    @Autowired
+    SysCheckService sysCheckService;
+
+    @Autowired
+    SysUserService sysUserService;
+
+    @Autowired
+    SysDeptStandardService sysDeptStandardService;
+
+    @Autowired(required = false)
+    SysCheckMapper sysCheckMapper;
+
+    /**
+     * 每天晚上23点37分执行打卡检测
+     */
+    @Scheduled(cron = "0 37 23 * * ?")
+    @Transactional(rollbackFor = Exception.class)
+    public void checkSysCheck() {
+        // 获取今天的打卡
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = LocalDateTime.of(now.toLocalDate(), LocalTime.MIN);
+        LocalDateTime end = LocalDateTime.of(now.toLocalDate(), LocalTime.MAX);
+
+        QueryWrapper<SysCheck> queryWrapper = new QueryWrapper<>();
+        queryWrapper.between("create_time", start, end);
+
+        List<SysCheck> sysChecks = sysCheckMapper.selectList(queryWrapper);
+
+        // 统计工时
+        sysChecks.forEach(sysCheck -> {
+            Date updateTime = sysCheck.getUpdateTime();
+            if (ObjectUtil.isNull(updateTime)) {
+                sysCheck.setDes("未签退！");
+                sysCheck.setStatus(1);
+                sysCheckService.updateById(sysCheck);
+            } else {
+                Date createTime = sysCheck.getCreateTime();
+                long between = DateUtil.between(createTime, updateTime, DateUnit.MINUTE);
+                Double duration = Double.valueOf(NumberUtil.roundStr(NumberUtil.div(between, 60), 1));
+                sysCheck.setWorkTime(duration);
+
+                // 获取部门标准
+                SysUser userInfoById = sysUserService.getById(sysCheck.getUserId());
+                SysDeptStandard ruleById = sysDeptStandardService.getRuleById(userInfoById.getDeptId());
+
+                if (sysCheck.getCreateTime().after(ruleById.getLatestTime())) {
+                    sysCheck.setDes("你今天迟到了！");
+                    sysCheck.setStatus(1);
+                }
+                if (sysCheck.getUpdateTime().before(ruleById.getEarliestTime())) {
+                    sysCheck.setDes("你今天提前下班了！");
+                    sysCheck.setStatus(1);
+                }
+                if (ruleById.getMinDuration() > duration) {
+                    sysCheck.setDes("早退了，工作时间不足");
+                    sysCheck.setStatus(1);
+                } else {
+                    sysCheck.setDes("今天你真棒，按时完成工作了！");
+                    sysCheck.setStatus(0);
+                }
+                sysCheckService.updateById(sysCheck);
+            }
+
+        });
+
+    }
+}
