@@ -62,4 +62,5 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     Boolean deleteByIds(List<String> asList);
+
 }

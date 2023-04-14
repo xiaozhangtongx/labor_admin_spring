@@ -3,7 +3,6 @@ package com.xiaozhang.springboot.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaozhang.springboot.domain.SysCheck;
 
-import java.sql.Time;
 import java.util.List;
 
 /**
@@ -23,4 +22,10 @@ public interface SysCheckService extends IService<SysCheck> {
      * @return
      */
     List<SysCheck> getCheckInfoToday(String userId);
+
+    /**
+     * 批量拷贝用户信息
+     * @return
+     */
+    boolean copySysUser();
 }

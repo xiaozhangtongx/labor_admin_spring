@@ -1,12 +1,14 @@
 package com.xiaozhang.springboot.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -31,6 +33,7 @@ public class SysCheck implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "用户id")
+    @NotBlank(message = "用户id不能为空")
     private String userId;
 
     @ApiModelProperty(value = "创建时间")
@@ -53,8 +56,10 @@ public class SysCheck implements Serializable {
     @ApiModelProperty(value = "描述")
     private String des;
 
-    @ApiModelProperty(value = "状况")
+    @ApiModelProperty(value = "状况(0-正常/1-未打卡/2-迟到/3-早退/4-时长不够)")
     private Integer status;
 
-
+    @ApiModelProperty(value = "用户信息")
+    @TableField(exist = false)
+    private SysUser user;
 }

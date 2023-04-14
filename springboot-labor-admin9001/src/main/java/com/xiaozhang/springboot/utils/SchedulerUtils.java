@@ -66,7 +66,6 @@ public class SchedulerUtils {
             if (ObjectUtil.isNull(updateTime)) {
                 sysCheck.setDes("未签退！");
                 sysCheck.setStatus(1);
-                sysCheckService.updateById(sysCheck);
             } else {
                 Date createTime = sysCheck.getCreateTime();
                 long between = DateUtil.between(createTime, updateTime, DateUnit.MINUTE);
@@ -79,23 +78,28 @@ public class SchedulerUtils {
 
                 if (sysCheck.getCreateTime().after(ruleById.getLatestTime())) {
                     sysCheck.setDes("你今天迟到了！");
-                    sysCheck.setStatus(1);
-                }
-                if (sysCheck.getUpdateTime().before(ruleById.getEarliestTime())) {
+                    sysCheck.setStatus(2);
+                } else if (sysCheck.getUpdateTime().before(ruleById.getEarliestTime())) {
                     sysCheck.setDes("你今天提前下班了！");
-                    sysCheck.setStatus(1);
-                }
-                if (ruleById.getMinDuration() > duration) {
+                    sysCheck.setStatus(3);
+                } else if (ruleById.getMinDuration() > duration) {
                     sysCheck.setDes("早退了，工作时间不足");
-                    sysCheck.setStatus(1);
+                    sysCheck.setStatus(4);
                 } else {
                     sysCheck.setDes("今天你真棒，按时完成工作了！");
                     sysCheck.setStatus(0);
                 }
-                sysCheckService.updateById(sysCheck);
             }
+            sysCheckService.updateById(sysCheck);
 
         });
 
+    }
+
+    @Scheduled(cron = "0 1 0 * * ?")
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean checkSysCheckUser() {
+
+        return sysCheckService.copySysUser();
     }
 }
