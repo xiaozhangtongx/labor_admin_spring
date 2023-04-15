@@ -110,16 +110,6 @@ public class SysUserController {
         if (ObjectUtil.isNotNull(user)) {
             return Result.fail("该手机号已经被注册了");
         } else {
-            List<SysUserRole> list = new ArrayList<>();
-            sysUser.getRoles().forEach(role -> {
-                SysUserRole sysUserRole = new SysUserRole();
-                sysUserRole.setRoleId(role.getId());
-                sysUserRole.setUserId(sysUser.getId());
-                list.add(sysUserRole);
-            });
-            // 批量插入
-            sysUserRoleService.saveBatch(list);
-
             sysUser.setCreateTime(new Date());
             String password = passwordEncoder.encode(sysUser.getPassword());
             sysUser.setPassword(password);
@@ -196,7 +186,6 @@ public class SysUserController {
 
         return flag ? Result.success("删除成功") : Result.fail("删除失败");
     }
-
 
     @DeleteMapping("/delete/{id}")
     @ApiOperation("注销用户,需要token")
