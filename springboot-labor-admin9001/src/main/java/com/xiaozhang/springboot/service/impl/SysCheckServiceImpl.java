@@ -10,11 +10,14 @@ import com.xiaozhang.springboot.mapper.SysUserMapper;
 import com.xiaozhang.springboot.service.SysCheckService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,41 +38,53 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
     @Autowired(required = false)
     SysUserMapper sysUserMapper;
 
-    @Autowired
-    SysCheckService sysCheckService;
-
 
     @Override
-    public List<SysCheck> getCheckInfoToday(String userId) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime start = LocalDateTime.of(now.toLocalDate(), LocalTime.MIN);
-        LocalDateTime end = LocalDateTime.of(now.toLocalDate(), LocalTime.MAX);
+    public List<SysCheck> getCheckInfoToday(String userId, Date now) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(now);
 
         QueryWrapper<SysCheck> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId)
-                .between("create_time", start, end);
+        queryWrapper.apply("DATE_FORMAT(create_time, '%Y-%m-%d') = {0}", dateStr);
 
-        List<SysCheck> sysChecks = sysCheckMapper.selectList(queryWrapper);
+        return sysCheckMapper.selectList(queryWrapper);
 
-        return sysChecks;
     }
 
     @Override
     public boolean copySysUser() {
 
         List<Object> userIdList = sysUserMapper.selectObjs(Wrappers.<SysUser>lambdaQuery().select(SysUser::getId));
-
         List<SysCheck> sysChecks = new ArrayList<>();
 
         for (Object id : userIdList) {
-            SysCheck sysCheck = new SysCheck();
-            sysCheck.setUserId((String) id);
-            sysChecks.add(sysCheck);
+            List<SysCheck> checkInfoToday = getCheckInfoToday((String) id, new Date());
+
+            // 判断时候已经有记录了
+            if (checkInfoToday.isEmpty()) {
+                SysCheck sysCheck = new SysCheck();
+                sysCheck.setCreateTime(new Date());
+                sysCheck.setUserId((String) id);
+                sysCheck.setDes("未打卡");
+
+                sysChecks.add(sysCheck);
+            }
         }
 
-        boolean b = sysCheckService.saveOrUpdateBatch(sysChecks);
+        return saveOrUpdateBatch(sysChecks);
+    }
 
-        return b;
+    @Override
+    public Boolean setCheckInfo(String userId, Date createTime) {
+
+        List<SysCheck> checkInfoToday = getCheckInfoToday(userId, createTime);
+        SysCheck sysCheck = checkInfoToday.get(0);
+        sysCheck.setDes("请假");
+        sysCheck.setUpdateTime(new Date());
+        sysCheck.setStatus(5);
+
+        return updateById(sysCheck);
     }
 
 }

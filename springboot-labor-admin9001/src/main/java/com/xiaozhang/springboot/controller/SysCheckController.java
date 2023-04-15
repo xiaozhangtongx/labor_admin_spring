@@ -73,16 +73,18 @@ public class SysCheckController {
         if (distance > standard.getRadius()) {
             return Result.fail("请在工作地点内打卡!");
         } else {
-            List<SysCheck> checkList = sysCheckService.getCheckInfoToday(sysCheck.getUserId());
+            List<SysCheck> checkList = sysCheckService.getCheckInfoToday(sysCheck.getUserId(), new Date());
+            SysCheck checkInfo = checkList.get(0);
 
-            if (checkList.size() == 0) {
-                sysCheck.setCreateTime(new Date());
-                sysCheckService.saveOrUpdate(sysCheck);
+            if (ObjectUtil.isNull(checkList.get(0).getSignInTime())) {
+                checkInfo.setSignInTime(new Date());
+
             } else {
-                SysCheck checkInfo = checkList.get(0);
+                checkInfo.setSignOutTime(new Date());
                 checkInfo.setUpdateTime(new Date());
-                sysCheckService.updateById(checkInfo);
+
             }
+            sysCheckService.updateById(checkInfo);
 
             return Result.success("打卡成功!");
         }

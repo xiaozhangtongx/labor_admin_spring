@@ -62,13 +62,13 @@ public class SchedulerUtils {
 
         // 统计工时
         sysChecks.forEach(sysCheck -> {
-            Date updateTime = sysCheck.getUpdateTime();
-            if (ObjectUtil.isNull(updateTime)) {
+            Date signOutTime = sysCheck.getSignOutTime();
+            if (ObjectUtil.isNull(signOutTime)) {
                 sysCheck.setDes("未签退！");
                 sysCheck.setStatus(1);
             } else {
-                Date createTime = sysCheck.getCreateTime();
-                long between = DateUtil.between(createTime, updateTime, DateUnit.MINUTE);
+                Date signInTime = sysCheck.getSignInTime();
+                long between = DateUtil.between(signInTime, signOutTime, DateUnit.MINUTE);
                 Double duration = Double.valueOf(NumberUtil.roundStr(NumberUtil.div(between, 60), 1));
                 sysCheck.setWorkTime(duration);
 
@@ -76,10 +76,10 @@ public class SchedulerUtils {
                 SysUser userInfoById = sysUserService.getById(sysCheck.getUserId());
                 SysDeptStandard ruleById = sysDeptStandardService.getRuleById(userInfoById.getDeptId());
 
-                if (sysCheck.getCreateTime().after(ruleById.getLatestTime())) {
+                if (sysCheck.getSignInTime().after(ruleById.getLatestTime())) {
                     sysCheck.setDes("你今天迟到了！");
                     sysCheck.setStatus(2);
-                } else if (sysCheck.getUpdateTime().before(ruleById.getEarliestTime())) {
+                } else if (sysCheck.getSignOutTime().before(ruleById.getEarliestTime())) {
                     sysCheck.setDes("你今天提前下班了！");
                     sysCheck.setStatus(3);
                 } else if (ruleById.getMinDuration() > duration) {

@@ -59,6 +59,12 @@ public class SysCheck implements Serializable {
     @ApiModelProperty(value = "状况(0-正常/1-未打卡/2-迟到/3-早退/4-时长不够)")
     private Integer status;
 
+    @ApiModelProperty(value = " 签到时间")
+    private Date signInTime;
+
+    @ApiModelProperty(value = "签退时间")
+    private Date signOutTime;
+
     @ApiModelProperty(value = "用户信息")
     @TableField(exist = false)
     private SysUser user;

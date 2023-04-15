@@ -1,6 +1,11 @@
 package com.xiaozhang.springboot.utils;
 
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
 import org.springframework.stereotype.Component;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author: xiaozhangtx
@@ -11,6 +16,20 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MathUtils {
+
+    public Date[] getDatesBetween(Date startDate, Date endDate) {
+
+        long days = DateUtil.between(startDate, endDate, DateUnit.DAY);
+        Date[] dates = new Date[(int) days];
+
+        int index = 0;
+        while (startDate.before(endDate)) {
+            dates[index++] = startDate;
+            startDate = DateUtil.offsetDay(startDate, 1);
+        }
+
+        return dates;
+    }
 
     /**
      * 计算两个坐标点之间的距离
@@ -32,4 +51,5 @@ public class MathUtils {
         double distance = R * c;
         return distance;
     }
+
 }
