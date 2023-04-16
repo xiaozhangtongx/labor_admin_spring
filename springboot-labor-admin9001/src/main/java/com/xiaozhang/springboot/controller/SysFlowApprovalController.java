@@ -59,7 +59,7 @@ public class SysFlowApprovalController {
         SysFlowApproval flowApprovalById = sysFlowApprovalService.getById(sysFlowApproval.getId());
 
         // 判断审批人是否一致,并判断是否已经处理
-        if (flowApprovalById.getApproverId().equals(sysFlowApproval.getApproverId()) && flowApprovalById.getStatus() == 1) {
+        if (flowApprovalById.getApproverId().equals(sysFlowApproval.getApproverId()) && flowApprovalById.getStatus() != 2) {
             sysFlowApproval.setUpdateTime(new Date());
             sysFlowApproval.setApprovalTime(new Date());
             sysFlowApproval.setStatus(0);

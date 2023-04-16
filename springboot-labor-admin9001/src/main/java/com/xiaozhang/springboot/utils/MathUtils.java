@@ -2,6 +2,7 @@ package com.xiaozhang.springboot.utils;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -20,14 +21,14 @@ public class MathUtils {
     public Date[] getDatesBetween(Date startDate, Date endDate) {
 
         long days = DateUtil.between(startDate, endDate, DateUnit.DAY);
-        Date[] dates = new Date[(int) days];
+        Date[] dates = new Date[(int) days + 1];
 
         int index = 0;
         while (startDate.before(endDate)) {
             dates[index++] = startDate;
             startDate = DateUtil.offsetDay(startDate, 1);
         }
-
+        dates[index] = endDate;
         return dates;
     }
 
@@ -50,6 +51,19 @@ public class MathUtils {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c;
         return distance;
+    }
+
+    /**
+     * 计算工作时长
+     *
+     * @param signInTime
+     * @param signOutTime
+     * @return
+     */
+    public Double getDuration(Date signInTime, Date signOutTime) {
+        long between = DateUtil.between(signInTime, signOutTime, DateUnit.MINUTE);
+        Double duration = Double.valueOf(NumberUtil.roundStr(NumberUtil.div(between, 60), 1));
+        return duration;
     }
 
 }

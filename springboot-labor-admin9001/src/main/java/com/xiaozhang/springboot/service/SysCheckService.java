@@ -33,11 +33,15 @@ public interface SysCheckService extends IService<SysCheck> {
     boolean copySysUser();
 
     /**
-     * 审批通过后修改信息
+     * 审批同意后修改考勤信息
      *
      * @param userId
-     * @param createTime
+     * @param startTime
+     * @param endTime
+     * @param des
+     * @param status
      * @return
      */
-    Boolean setCheckInfo(String userId, Date createTime);
+    Boolean setCheckInfo(String userId, Date startTime, Date endTime, String des, Integer status);
+
 }

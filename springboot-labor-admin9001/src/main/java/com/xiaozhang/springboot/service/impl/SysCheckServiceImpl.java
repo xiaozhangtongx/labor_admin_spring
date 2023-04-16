@@ -8,6 +8,7 @@ import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.mapper.SysCheckMapper;
 import com.xiaozhang.springboot.mapper.SysUserMapper;
 import com.xiaozhang.springboot.service.SysCheckService;
+import com.xiaozhang.springboot.utils.MathUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -37,6 +38,9 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
 
     @Autowired(required = false)
     SysUserMapper sysUserMapper;
+
+    @Autowired
+    MathUtils mathUtils;
 
 
     @Override
@@ -76,15 +80,22 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
     }
 
     @Override
-    public Boolean setCheckInfo(String userId, Date createTime) {
+    public Boolean setCheckInfo(String userId, Date startTime, Date endTime, String des, Integer status) {
+        Double duration = mathUtils.getDuration(startTime, endTime);
+        SysCheck sysCheck = new SysCheck();
 
-        List<SysCheck> checkInfoToday = getCheckInfoToday(userId, createTime);
-        SysCheck sysCheck = checkInfoToday.get(0);
-        sysCheck.setDes("请假");
-        sysCheck.setUpdateTime(new Date());
-        sysCheck.setStatus(5);
+        List<SysCheck> checkInfoToday = getCheckInfoToday(userId, startTime);
 
-        return updateById(sysCheck);
+        if (checkInfoToday.size() != 0) {
+            sysCheck.setId(checkInfoToday.get(0).getId());
+        }
+
+        sysCheck.setUserId(userId);
+        sysCheck.setCreateTime(startTime);
+        sysCheck.setWorkTime(duration);
+        sysCheck.setDes(des);
+        sysCheck.setStatus(status);
+        return saveOrUpdate(sysCheck);
     }
 
 }

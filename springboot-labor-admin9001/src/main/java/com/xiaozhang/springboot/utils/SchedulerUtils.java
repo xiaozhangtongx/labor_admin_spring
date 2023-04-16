@@ -44,6 +44,9 @@ public class SchedulerUtils {
     @Autowired(required = false)
     SysCheckMapper sysCheckMapper;
 
+    @Autowired
+    MathUtils mathUtils;
+
     /**
      * 每天晚上23点37分执行打卡检测
      */
@@ -68,8 +71,7 @@ public class SchedulerUtils {
                 sysCheck.setStatus(1);
             } else {
                 Date signInTime = sysCheck.getSignInTime();
-                long between = DateUtil.between(signInTime, signOutTime, DateUnit.MINUTE);
-                Double duration = Double.valueOf(NumberUtil.roundStr(NumberUtil.div(between, 60), 1));
+                Double duration = mathUtils.getDuration(signInTime, signOutTime);
                 sysCheck.setWorkTime(duration);
 
                 // 获取部门标准
