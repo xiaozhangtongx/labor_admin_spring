@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,7 @@ public class SysFlowOvertimeController {
 
     @PostMapping("/add")
     @ApiOperation("用户加班申请，需要token")
+    @Transactional(rollbackFor = Exception.class)
     public Result addOvertimeFlow(@Validated @RequestBody SysFlowOvertime sysFlowOver) {
 
         long between = DateUtil.between(sysFlowOver.getStartTime(), sysFlowOver.getEndTime(), DateUnit.MINUTE);

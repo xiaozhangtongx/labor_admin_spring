@@ -50,7 +50,7 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
         String dateStr = sdf.format(now);
 
         QueryWrapper<SysCheck> queryWrapper = new QueryWrapper<>();
-        queryWrapper.apply("DATE_FORMAT(create_time, '%Y-%m-%d') = {0}", dateStr);
+        queryWrapper.apply("DATE_FORMAT(create_time, '%Y-%m-%d') = {0}", dateStr).eq("user_id", userId);
 
         return sysCheckMapper.selectList(queryWrapper);
 

@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,7 @@ public class SysFlowLeaveController {
 
     @PostMapping("/add")
     @ApiOperation("用户请假，需要token")
+    @Transactional(rollbackFor = Exception.class)
     public Result addLeaveFlow(@Validated @RequestBody SysFlowLeave sysFlowLeave) {
 
         sysFlowLeave.setCreateTime(new Date());

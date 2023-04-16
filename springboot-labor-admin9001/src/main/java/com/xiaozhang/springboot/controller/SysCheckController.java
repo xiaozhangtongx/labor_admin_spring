@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +63,7 @@ public class SysCheckController {
 
     @PostMapping("/add")
     @ApiOperation("用户打卡,需要token")
+    @Transactional(rollbackFor = Exception.class)
     public Result addCheck(@RequestBody @Validated SysCheck sysCheck) {
 
         SysUser userInfo = sysUserService.getById(sysCheck.getUserId());
@@ -123,7 +125,7 @@ public class SysCheckController {
     })
     public Result list(@RequestParam String userId, Integer status) {
         Page<SysCheck> pageData = sysCheckService.page(pageUtils.getPage(), new QueryWrapper<SysCheck>()
-                .like("user_id", userId).like("status", status == null ? "" : status).orderByAsc("create_time"));
+                .like("user_id", userId).like("status", status == null ? "" : status).orderByDesc("create_time"));
 
         pageData.getRecords().forEach(sysCheck -> {
             SysUser user = sysUserService.getById(sysCheck.getUserId());

@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,7 @@ public class SysFlowCancelController {
 
     @PostMapping("/add")
     @ApiOperation("用户销假，需要token")
+    @Transactional(rollbackFor = Exception.class)
     public Result addCancelFlow(@Validated @RequestBody SysFlowCancel sysFlowCancel) {
 
         SysFlowLeave flowLeave = sysFlowLeaveService.getById(sysFlowCancel.getLeaveId());
