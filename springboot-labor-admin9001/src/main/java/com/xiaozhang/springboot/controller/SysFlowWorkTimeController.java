@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * <p>
@@ -47,27 +48,7 @@ public class SysFlowWorkTimeController {
     @Transactional(rollbackFor = Exception.class)
     public Result addWorkTimeFlow(@Validated @RequestBody SysFlowWorktime sysFlowWorktime) {
 
-        sysFlowWorktime.setId(new SysFlowWorktime().getId());
-
-        Integer workType = sysFlowWorktime.getWorkType();
-
-        if (workType == 0) {
-            SysFlowApproval sysFlowApproval = new SysFlowApproval();
-            sysFlowApproval.setApplicationId(sysFlowWorktime.getId());
-            sysFlowApproval.setApproverId(sysFlowWorktime.getLeaderId());
-            sysFlowApproval.setApplicationType("3");
-
-            sysFlowApprovalService.save(sysFlowApproval);
-        } else {
-            String userList = sysFlowWorktime.getUserlist();
-            String[] userIdArray = userList.split(",");
-
-            for(String userId:userIdArray){
-
-            }
-
-        }
-
+        sysFlowWorktime.setCreateTime(new Date());
         boolean save = sysFlowWorktimeService.save(sysFlowWorktime);
 
         return save ? Result.success("提交成功!") : Result.fail("提交失败!请稍后再试一次!");

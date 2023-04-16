@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysFlowApproval;
-import com.xiaozhang.springboot.service.SysFlowApprovalService;
-import com.xiaozhang.springboot.service.SysFlowCancelService;
-import com.xiaozhang.springboot.service.SysFlowLeaveService;
-import com.xiaozhang.springboot.service.SysFlowOvertimeService;
+import com.xiaozhang.springboot.service.*;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -49,6 +46,9 @@ public class SysFlowApprovalController {
     SysFlowOvertimeService sysFlowOvertimeService;
 
     @Autowired
+    SysFlowWorktimeService sysFlowWorktimeService;
+
+    @Autowired
     PageUtils pageUtil;
 
     @PutMapping("/update")
@@ -81,6 +81,10 @@ public class SysFlowApprovalController {
                     // 处理加班
                     case "2":
                         sysFlowOvertimeService.updateStatus(sysFlowApproval.getApprovalResult(), flowApprovalById.getApplicationId());
+                        break;
+                    // 处理补办
+                    case "3":
+                        sysFlowWorktimeService.updateStatus(sysFlowApproval.getApprovalResult(), flowApprovalById.getApplicationId());
                         break;
 
                     default:

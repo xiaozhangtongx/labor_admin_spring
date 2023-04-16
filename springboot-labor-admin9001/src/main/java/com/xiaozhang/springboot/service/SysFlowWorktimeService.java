@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysFlowWorktimeService extends IService<SysFlowWorktime> {
 
+    /**
+     * 根据审批结果设置补办状态
+     *  @param approvalResult
+     * @param applicationId
+     * @return
+     */
+    boolean updateStatus(Integer approvalResult, String applicationId);
 }

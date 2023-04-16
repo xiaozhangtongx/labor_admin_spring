@@ -100,10 +100,25 @@ public class SysCheckController {
         }
     }
 
+    @PutMapping("/admin/edit")
+    @ApiOperation("部门主管修改考勤数据,开发中")
+    public Result editCheck(@RequestBody List<SysCheck> sysChecks) {
+
+        List<SysCheck> checkList = null;
+
+        for (SysCheck sysCheck : sysChecks) {
+            checkList.add(sysCheck);
+        }
+
+        sysCheckService.saveOrUpdateBatch(checkList);
+
+        return Result.success("修改");
+    }
+
+
     @GetMapping("/admin/check")
     @ApiOperation("管理员手工校验,需要token")
     public Result check() {
-
         schedulerUtils.checkSysCheck();
         return Result.success("校验成功");
     }

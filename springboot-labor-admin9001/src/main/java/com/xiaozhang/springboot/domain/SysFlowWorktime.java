@@ -60,16 +60,8 @@ public class SysFlowWorktime implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
-    @ApiModelProperty(value = "申请类别（0-直接申请/1-帮他人申请）")
-    @NotNull(message = "申请类别不能为空")
-    private Integer workType;
-
-    @ApiModelProperty(value = "帮他人申请的列表（id用逗号隔开）")
-    private String userlist;
-
     @ApiModelProperty(value = "主管id")
-    @NotBlank(message = "主管id不能为空")
+    @NotBlank(message = "审批人不能为空")
     private String leaderId;
-
 
 }
