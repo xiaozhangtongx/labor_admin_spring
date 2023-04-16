@@ -123,7 +123,7 @@ public class SysCheckController {
     })
     public Result list(@RequestParam String userId, Integer status) {
         Page<SysCheck> pageData = sysCheckService.page(pageUtils.getPage(), new QueryWrapper<SysCheck>()
-                .like("user_id", userId).like("status", status == null ? "" : status));
+                .like("user_id", userId).like("status", status == null ? "" : status).orderByAsc("create_time"));
 
         pageData.getRecords().forEach(sysCheck -> {
             SysUser user = sysUserService.getById(sysCheck.getUserId());
