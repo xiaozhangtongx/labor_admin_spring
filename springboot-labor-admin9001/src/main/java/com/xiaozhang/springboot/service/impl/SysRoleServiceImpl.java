@@ -2,6 +2,7 @@ package com.xiaozhang.springboot.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xiaozhang.springboot.domain.RoleInfoView;
 import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.mapper.SysRoleMapper;
 import com.xiaozhang.springboot.service.SysRoleService;
@@ -34,5 +35,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         Integer lines = sysRoleMapper.deleteBatchIds(idList);
 
         return lines != 0;
+    }
+
+    @Override
+    public List<RoleInfoView> selectRoleInfoViewList(String roleName) {
+        return sysRoleMapper.selectUserInfoViewList(roleName);
     }
 }

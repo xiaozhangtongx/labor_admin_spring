@@ -66,7 +66,6 @@ public class SysUser implements Serializable {
     private Date lastLogin;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonIgnore
     private Date createTime;
 
     @ApiModelProperty(value = "更新时间")

@@ -48,18 +48,14 @@ public class SysRole implements Serializable {
     private String des;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonIgnore
-    @CreatedDate
     private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
-    @JsonIgnore
-    @LastModifiedDate
     private Date updateTime;
 
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
-    @JsonIgnore
     @TableLogic
+    @JsonIgnore
     private Integer isDeleted;
 
     @ApiModelProperty(value = "角色列表")

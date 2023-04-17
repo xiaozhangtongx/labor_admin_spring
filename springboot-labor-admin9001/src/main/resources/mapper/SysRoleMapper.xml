@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaozhang.springboot.mapper.SysRoleMapper">
 
+    <select id="selectUserInfoViewList" resultType="com.xiaozhang.springboot.domain.RoleInfoView">
+        select *
+        from role_info_view
+        where role_info_view.role_name like concat('%', #{roleName}, '%')
+    </select>
 </mapper>

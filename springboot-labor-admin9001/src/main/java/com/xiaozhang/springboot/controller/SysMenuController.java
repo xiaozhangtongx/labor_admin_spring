@@ -55,13 +55,13 @@ public class SysMenuController {
         return Result.success(200, "菜单信息获取成功", sysMenuService.getById(id), "");
     }
 
-    @GetMapping("/list")
-    @ApiOperation("获取菜单列表,需要token")
+    @GetMapping("/tree")
+    @ApiOperation("获取菜单树,需要token")
     public Result list() {
 
         List<SysMenu> menus = sysMenuService.list2tree();
 
-        return Result.success(200, "菜单列表获取成功", menus, "");
+        return Result.success(200, "菜单树获取成功", menus, "");
     }
 
     @PostMapping("/add")

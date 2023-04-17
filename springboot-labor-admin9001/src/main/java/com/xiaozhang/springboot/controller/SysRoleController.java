@@ -6,17 +6,21 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
+import com.xiaozhang.springboot.domain.RoleInfoView;
 import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysRoleMenu;
 import com.xiaozhang.springboot.domain.SysUserRole;
+import com.xiaozhang.springboot.mapper.SysRoleMapper;
 import com.xiaozhang.springboot.service.SysMenuService;
 import com.xiaozhang.springboot.service.SysRoleMenuService;
 import com.xiaozhang.springboot.service.SysRoleService;
 import com.xiaozhang.springboot.service.SysUserRoleService;
 import com.xiaozhang.springboot.utils.PageUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -35,7 +40,9 @@ import java.util.Date;
  */
 @RestController
 @Transactional
+@Api(tags = "角色接口")
 @RequestMapping("/sys-role")
+@Slf4j
 public class SysRoleController {
 
     @Autowired
@@ -62,7 +69,7 @@ public class SysRoleController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result list(String roleName) {
+    public Result list(@RequestParam String roleName) {
 
         Page<SysRole> pageData = sysRoleService.page(pageUtil.getPage(),
                 new QueryWrapper<SysRole>()
@@ -76,6 +83,17 @@ public class SysRoleController {
         return Result.success(200, "用户列表获取成功", pageData, "");
     }
 
+    @GetMapping("/allList")
+    @ApiOperation("获取所有的角色列表，通过视图,需要token")
+    public Result allList(@RequestParam String roleName) {
+
+        log.info("---------1----------" + roleName);
+        List<RoleInfoView> roleInfoViewList = sysRoleService.selectRoleInfoViewList(roleName);
+
+        return Result.success(200, "角色列表获取成功", roleInfoViewList, "");
+    }
+
+
     @PostMapping("/add")
     @Transactional(rollbackFor = Exception.class)
     @ApiOperation("添加角色,需要token")
@@ -88,7 +106,6 @@ public class SysRoleController {
 
             return Result.fail("该角色/编码已经被使用了");
         } else {
-            sysRoleService.save(roleInfoByName);
             sysRole.setCreateTime(new Date());
             sysRoleService.save(sysRole);
 
