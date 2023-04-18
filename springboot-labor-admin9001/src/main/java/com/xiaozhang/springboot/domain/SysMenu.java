@@ -26,7 +26,6 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-//@JsonIgnoreProperties(ignoreUnknown = true)
 @ApiModel(value = "SysMenu对象", description = "菜单表")
 public class SysMenu implements Serializable {
 
@@ -65,11 +64,9 @@ public class SysMenu implements Serializable {
     private Integer orderNum;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonIgnore
     private Date createTime;
 
     @ApiModelProperty(value = "更新时间")
-    @JsonIgnore
     private Date updateTime;
 
     @TableField(exist = false)
@@ -80,5 +77,11 @@ public class SysMenu implements Serializable {
     @JsonIgnore
     @TableLogic
     private Integer isDeleted;
+
+    @ApiModelProperty(value = "菜单类型")
+    private Integer menuType;
+
+    @ApiModelProperty(value = "菜单状态")
+    private Integer status;
 
 }

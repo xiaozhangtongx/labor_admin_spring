@@ -75,10 +75,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             for (SysMenu e : menus) {
                 if (menu.getId().equals(e.getParentId())) {
                     if (ObjectUtil.isNull(menu.getChildren())) {
-                        menu.setChildren(Arrays.asList(e));
-                    } else {
-                        menu.getChildren().add(e);
+                        menu.setChildren(new ArrayList<SysMenu>());
                     }
+                    menu.getChildren().add(e);
                 }
             }
 
