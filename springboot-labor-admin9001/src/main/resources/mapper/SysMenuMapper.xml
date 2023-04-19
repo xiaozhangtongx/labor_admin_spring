@@ -7,6 +7,7 @@
                menu_name
         FROM sys_menu
         WHERE is_deleted = 0
+          AND status = 0
           AND (
             id IN (SELECT menu_id FROM sys_role_menu WHERE role_id = #{roleId}))
     </select>

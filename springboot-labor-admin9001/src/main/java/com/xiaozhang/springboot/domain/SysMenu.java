@@ -50,6 +50,9 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "菜单URL")
     private String menuPath;
 
+    @ApiModelProperty(value = "重定向")
+    private String redirect;
+
     @ApiModelProperty(value = "授权(多个用逗号分隔，如：user:list,user:create)")
     @NotBlank(message = "菜单授权码不能为空")
     private String menuPerms;
