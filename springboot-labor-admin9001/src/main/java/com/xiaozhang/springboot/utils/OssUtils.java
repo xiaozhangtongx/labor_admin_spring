@@ -20,9 +20,9 @@ public class OssUtils {
 
     private static final String endpoint = "oss-cn-shenzhen.aliyuncs.com";
 
-    private static final String accessKeyId = "LTAI5tNJMLjaTELSPba3bBBn";
+    private static final String accessKeyId = "xxx";
 
-    private static final String accessKeySecret = "SAt2NU1TpV7tYexoGzGNl0PpLInznS";
+    private static final String accessKeySecret = "xxx";
 
     private static final String bucketName = "labor-safe";
 
