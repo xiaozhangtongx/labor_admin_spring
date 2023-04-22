@@ -82,16 +82,18 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
     public Boolean setCheckInfo(String userId, Date startTime, Date endTime, String des, Integer status) {
         Double duration = mathUtils.getDuration(startTime, endTime);
         SysCheck sysCheck = new SysCheck();
+        Double curWorkTime = 0.0;
 
         List<SysCheck> checkInfoToday = getCheckInfoToday(userId, startTime);
 
         if (checkInfoToday.size() != 0) {
             sysCheck.setId(checkInfoToday.get(0).getId());
+            curWorkTime = checkInfoToday.get(0).getWorkTime();
         }
 
         sysCheck.setUserId(userId);
         sysCheck.setCreateTime(startTime);
-        sysCheck.setWorkTime(duration);
+        sysCheck.setWorkTime(duration + curWorkTime);
         sysCheck.setDes(des);
         sysCheck.setStatus(status);
         return saveOrUpdate(sysCheck);

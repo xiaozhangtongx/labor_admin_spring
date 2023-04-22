@@ -2,6 +2,8 @@ package com.xiaozhang.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author: xiaozhangtx
@@ -11,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Version: 1.0
  */
 @SpringBootApplication
+@EnableScheduling
+@EnableTransactionManagement
 public class LaborAdmin9001 {
     public static void main(String[] args) {
         SpringApplication.run(LaborAdmin9001.class, args);
