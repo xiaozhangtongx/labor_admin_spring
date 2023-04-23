@@ -87,7 +87,6 @@ public class SysRoleController {
     @ApiOperation("获取所有的角色列表，通过视图,需要token")
     public Result allList(@RequestParam String roleName) {
 
-        log.info("---------1----------" + roleName);
         List<RoleInfoView> roleInfoViewList = sysRoleService.selectRoleInfoViewList(roleName);
 
         return Result.success(200, "角色列表获取成功", roleInfoViewList, "");
@@ -121,6 +120,15 @@ public class SysRoleController {
         boolean b = sysRoleService.updateById(sysRole);
 
         return b ? Result.success(200, "修改成功", sysRole, "") : Result.fail("修改失败");
+    }
+
+    @PostMapping("/perm/{roleId}")
+    @ApiOperation("分配权限,需要token")
+    public Result updatePerm(@PathVariable("roleId") String roleId, @RequestBody String[] menuIds) {
+
+        boolean b = sysRoleMenuService.updateMenu(roleId, menuIds);
+
+        return b ? Result.success("修改成功") : Result.fail("修改失败");
     }
 
 
