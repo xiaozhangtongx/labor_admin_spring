@@ -113,6 +113,8 @@ public class SysUserController {
             sysUser.setCreateTime(new Date());
             String password = passwordEncoder.encode(sysUser.getPassword());
             sysUser.setPassword(password);
+            sysUser.setAvatar(sysUser.getAvatar().equals("") ? Const.DEFULT_AVATOR : sysUser.getAvatar());
+
             sysUserService.save(sysUser);
             sysUser.setPassword(null);
 
@@ -125,21 +127,36 @@ public class SysUserController {
     @ApiOperation("修改用户信息,需要token")
     public Result update(@RequestBody SysUser sysUser) {
 
-        // 更新角色
-        List<SysUserRole> roleList = new ArrayList<>();
+        SysUser userInfoById = sysUserService.getById(sysUser.getId());
 
-        sysUser.getRoles().forEach(role -> {
-            SysUserRole sysUserRole = new SysUserRole();
-            sysUserRole.setRoleId(role.getId());
-            sysUserRole.setUserId(sysUser.getId());
-            roleList.add(sysUserRole);
-        });
-        sysUserRoleService.updateBatchById(roleList);
+        userInfoById.setUpdateTime(new Date());
+        userInfoById.setAvatar(sysUser.getAvatar().equals("") ? Const.DEFULT_AVATOR : sysUser.getAvatar());
+        userInfoById.setPhoneNum(sysUser.getPhoneNum());
 
-        sysUser.setUpdateTime(new Date());
-        boolean flag = sysUserService.updateById(sysUser);
+        boolean flag = sysUserService.updateById(userInfoById);
 
         return flag ? Result.success(200, "修改成功", sysUser, "") : Result.fail("修改失败");
+    }
+
+    @PostMapping("/role/{userId}")
+    @Transactional(rollbackFor = Exception.class)
+    @ApiOperation("分配角色,需要token")
+    public Result rolePerm(@PathVariable("userId") String userId, @RequestBody String[] roleIds) {
+
+        List<SysUserRole> userRoles = new ArrayList<>();
+
+        Arrays.stream(roleIds).forEach(r -> {
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setRoleId(r);
+            sysUserRole.setUserId(userId);
+
+            userRoles.add(sysUserRole);
+        });
+
+        sysUserRoleService.remove(new QueryWrapper<SysUserRole>().eq("user_id", userId));
+        boolean b = sysUserRoleService.saveBatch(userRoles);
+
+        return b ? Result.success("修改成功") : Result.fail("修改失败");
     }
 
     @PutMapping("/updatePass")
