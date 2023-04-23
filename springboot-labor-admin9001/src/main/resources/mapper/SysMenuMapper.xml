@@ -4,7 +4,8 @@
 
     <select id="getMenuList" resultType="com.xiaozhang.springboot.domain.SysMenu">
         SELECT id,
-               menu_name
+               menu_name,
+               parent_id
         FROM sys_menu
         WHERE is_deleted = 0
           AND status = 0

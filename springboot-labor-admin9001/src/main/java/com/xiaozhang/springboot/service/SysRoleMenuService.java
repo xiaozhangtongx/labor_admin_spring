@@ -2,6 +2,7 @@ package com.xiaozhang.springboot.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaozhang.springboot.domain.SysMenu;
+import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysRoleMenu;
 
 import java.util.List;
@@ -23,4 +24,13 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @return
      */
     List<SysMenu> getMenuList(String id);
+
+    /**
+     * 设置权限
+     *
+     * @param roleId
+     * @param menuIds
+     * @return
+     */
+    boolean updateMenu(String roleId, String[] menuIds);
 }
