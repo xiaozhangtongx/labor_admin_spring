@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -55,4 +57,20 @@ public class SysFlowApproval implements Serializable {
 
     @ApiModelProperty(value = "处理状态（0-已处理/1-未处理）")
     private Integer status;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "请假表单详细信息")
+    private SysFlowLeave flowLeaveInfo;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "补办工时申请表单详细信息")
+    private SysFlowWorktime flowWorkTimeInfo;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "消假表单详细信息")
+    private SysFlowCancel flowCancelInfo;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "加班申请表单详细信息")
+    private SysFlowOvertime flowOverTimeInfo;
 }

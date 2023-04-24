@@ -107,9 +107,34 @@ public class SysFlowApprovalController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result list(@RequestParam String approverId, Integer status) {
+    public Result list(@RequestParam String approverId, Integer status, String applicationType) {
+
         Page<SysFlowApproval> pageData = sysFlowApprovalService.page(pageUtil.getPage(), new QueryWrapper<SysFlowApproval>()
-                .like("approver_id", approverId).like("status", status == null ? "" : status));
+                .eq("approver_id", approverId).like("status", status == null ? "" : status).eq("application_type", applicationType));
+
+        // 根据审批类型处理对应的方法
+        for (SysFlowApproval sysFlowApproval : pageData.getRecords()) {
+            switch (sysFlowApproval.getApplicationType()) {
+                // 处理请假
+                case "0":
+                    sysFlowApproval.setFlowLeaveInfo(sysFlowLeaveService.getById(sysFlowApproval.getApplicationId()));
+                    break;
+                // 处理销假
+                case "1":
+                    sysFlowApproval.setFlowCancelInfo(sysFlowCancelService.getById(sysFlowApproval.getApplicationId()));
+                    break;
+                // 处理加班
+                case "2":
+                    sysFlowApproval.setFlowOverTimeInfo(sysFlowOvertimeService.getById(sysFlowApproval.getApplicationId()));
+                    break;
+                // 处理补办
+                case "3":
+                    sysFlowApproval.setFlowWorkTimeInfo(sysFlowWorktimeService.getById(sysFlowApproval.getApplicationId()));
+                    break;
+                default:
+                    return Result.fail("无相关操作");
+            }
+        }
 
         return Result.success(200, "审批列表获取成功", pageData, "");
     }
