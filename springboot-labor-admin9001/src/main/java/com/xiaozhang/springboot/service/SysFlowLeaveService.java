@@ -21,4 +21,12 @@ public interface SysFlowLeaveService extends IService<SysFlowLeave> {
      * @return
      */
     boolean updateStatus(Integer approvalResult, String applicationId);
+
+    /**
+     * 通过id获取请假表单所有用户信息
+     *
+     * @param id
+     * @return
+     */
+    SysFlowLeave getLeaveInfoById(String id);
 }

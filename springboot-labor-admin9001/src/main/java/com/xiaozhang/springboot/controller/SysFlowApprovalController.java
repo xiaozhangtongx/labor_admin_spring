@@ -117,7 +117,7 @@ public class SysFlowApprovalController {
             switch (sysFlowApproval.getApplicationType()) {
                 // 处理请假
                 case "0":
-                    sysFlowApproval.setFlowLeaveInfo(sysFlowLeaveService.getById(sysFlowApproval.getApplicationId()));
+                    sysFlowApproval.setFlowLeaveInfo(sysFlowLeaveService.getLeaveInfoById(sysFlowApproval.getApplicationId()));
                     break;
                 // 处理销假
                 case "1":

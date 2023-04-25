@@ -4,6 +4,7 @@ package com.xiaozhang.springboot.controller;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -57,6 +59,15 @@ public class SysFlowLeaveController {
         boolean save = sysFlowLeaveService.save(sysFlowLeave);
 
         return save ? Result.success("提交成功!") : Result.fail("提交失败!请稍后再试一次!");
+    }
+
+    @GetMapping("/Info/{id}")
+    @ApiOperation("申请表单信息,需要token")
+    public Result delete(@PathVariable String id) {
+
+        SysFlowLeave leaveInfoById = sysFlowLeaveService.getLeaveInfoById(id);
+
+        return ObjectUtil.isNotNull(leaveInfoById) ? Result.success("获取成功") : Result.fail("获取失败");
     }
 
 

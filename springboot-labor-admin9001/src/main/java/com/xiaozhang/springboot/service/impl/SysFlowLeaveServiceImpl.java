@@ -1,11 +1,14 @@
 package com.xiaozhang.springboot.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhang.springboot.domain.SysCheck;
 import com.xiaozhang.springboot.domain.SysFlowLeave;
+import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.mapper.SysFlowLeaveMapper;
 import com.xiaozhang.springboot.service.SysCheckService;
 import com.xiaozhang.springboot.service.SysFlowLeaveService;
+import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.MathUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,9 @@ public class SysFlowLeaveServiceImpl extends ServiceImpl<SysFlowLeaveMapper, Sys
 
     @Autowired
     SysCheckService sysCheckService;
+
+    @Autowired
+    SysUserService sysUserService;
 
     @Autowired
     MathUtils mathUtils;
@@ -77,5 +83,18 @@ public class SysFlowLeaveServiceImpl extends ServiceImpl<SysFlowLeaveMapper, Sys
         flowLeaveById.setStatus(approvalResult);
 
         return sysFlowLeaveService.updateById(flowLeaveById);
+    }
+
+    @Override
+    public SysFlowLeave getLeaveInfoById(String id) {
+        SysFlowLeave leaveInfoById = getById(id);
+
+        if (ObjectUtil.isNotNull(leaveInfoById)) {
+            SysUser userInfoById = sysUserService.getById(leaveInfoById.getUserId());
+            userInfoById.setPassword(null);
+            leaveInfoById.setProposer(userInfoById);
+        }
+
+        return leaveInfoById;
     }
 }
