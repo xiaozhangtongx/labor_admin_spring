@@ -69,4 +69,8 @@ public class SysFlowLeave implements Serializable {
     @TableField(exist = false)
     @ApiModelProperty(value = "审批领导")
     private SysUser leader;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "申请人信息")
+    private SysUser proposer;
 }
