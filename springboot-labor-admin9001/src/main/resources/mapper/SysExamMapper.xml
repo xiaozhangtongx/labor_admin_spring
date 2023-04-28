@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaozhang.springboot.mapper.SysExamMapper">
+
+    <resultMap id="BaseMap" type="com.xiaozhang.springboot.domain.SysExam">
+        <id column="id" property="id"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="duration" property="duration"/>
+        <result column="title" property="title"/>
+        <result column="creator" property="creator"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <resultMap id="WithQues" type="com.xiaozhang.springboot.domain.SysExam" extends="BaseMap">
+        <collection property="questions" ofType="com.xiaozhang.springboot.domain.SysQuestion"
+                    select="com.xiaozhang.springboot.mapper.SysQuestionMapper.selectQuestion" column="id">
+        </collection>
+    </resultMap>
+
+    <select id="selectMyList" resultMap="WithQues">
+        select *
+        from sys_exam
+    </select>
+</mapper>
