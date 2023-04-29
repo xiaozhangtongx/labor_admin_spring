@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
@@ -64,4 +65,7 @@ public class SysFlowWorktime implements Serializable {
     @NotBlank(message = "审批人不能为空")
     private String leaderId;
 
+    @TableField(exist = false)
+    @ApiModelProperty(value = "申请人信息")
+    private SysUser proposer;
 }
