@@ -4,9 +4,11 @@ package com.xiaozhang.springboot.controller;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
+import com.xiaozhang.springboot.domain.SysFlowCancel;
 import com.xiaozhang.springboot.domain.SysFlowLeave;
 import com.xiaozhang.springboot.domain.SysFlowOvertime;
 import com.xiaozhang.springboot.domain.SysUser;
@@ -55,6 +57,15 @@ public class SysFlowOvertimeController {
         boolean save = sysFlowOvertimeService.save(sysFlowOver);
 
         return save ? Result.success("提交成功!") : Result.fail("提交失败!请稍后再试一次!");
+    }
+
+    @GetMapping("/info/{id}")
+    @ApiOperation("加班表单信息,需要token")
+    public Result getInfoById(@PathVariable String id) {
+
+        SysFlowOvertime overTimeInfoById = sysFlowOvertimeService.getOverTimeInfoById(id);
+
+        return ObjectUtil.isNotNull(overTimeInfoById) ? Result.success("获取成功") : Result.fail("获取失败");
     }
 
     @GetMapping("/list")

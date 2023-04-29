@@ -15,9 +15,18 @@ public interface SysFlowOvertimeService extends IService<SysFlowOvertime> {
 
     /**
      * 设置加班状态
-     *  @param approvalResult
+     *
+     * @param approvalResult
      * @param applicationId
      * @return
      */
     boolean updateStatus(Integer approvalResult, String applicationId);
+
+    /**
+     * 根据id获取用户加班表单信息
+     *
+     * @param id
+     * @return
+     */
+    SysFlowOvertime getOverTimeInfoById(String id);
 }

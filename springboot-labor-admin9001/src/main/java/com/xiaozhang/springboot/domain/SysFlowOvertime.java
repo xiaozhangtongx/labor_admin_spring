@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -64,4 +65,8 @@ public class SysFlowOvertime implements Serializable {
     @ApiModelProperty(value = "主管id")
     @NotBlank(message = "审核人不能为空")
     private String leaderId;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "申请人信息")
+    private SysUser proposer;
 }

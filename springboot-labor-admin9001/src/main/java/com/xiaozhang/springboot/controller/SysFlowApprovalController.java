@@ -125,7 +125,7 @@ public class SysFlowApprovalController {
                     break;
                 // 处理加班
                 case "2":
-                    sysFlowApproval.setFlowOverTimeInfo(sysFlowOvertimeService.getById(sysFlowApproval.getApplicationId()));
+                    sysFlowApproval.setFlowOverTimeInfo(sysFlowOvertimeService.getOverTimeInfoById(sysFlowApproval.getApplicationId()));
                     break;
                 // 处理补办
                 case "3":
