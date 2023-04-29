@@ -15,9 +15,18 @@ public interface SysFlowWorktimeService extends IService<SysFlowWorktime> {
 
     /**
      * 根据审批结果设置补办状态
-     *  @param approvalResult
+     *
+     * @param approvalResult
      * @param applicationId
      * @return
      */
     boolean updateStatus(Integer approvalResult, String applicationId);
+
+    /**
+     * 通过id获取用户的补办表单信息
+     *
+     * @param id
+     * @return
+     */
+    SysFlowWorktime getWorkTimeInfoById(String id);
 }

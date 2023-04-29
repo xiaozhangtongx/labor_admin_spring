@@ -129,7 +129,7 @@ public class SysFlowApprovalController {
                     break;
                 // 处理补办
                 case "3":
-                    sysFlowApproval.setFlowWorkTimeInfo(sysFlowWorktimeService.getById(sysFlowApproval.getApplicationId()));
+                    sysFlowApproval.setFlowWorkTimeInfo(sysFlowWorktimeService.getWorkTimeInfoById(sysFlowApproval.getApplicationId()));
                     break;
                 default:
                     return Result.fail("无相关操作");
