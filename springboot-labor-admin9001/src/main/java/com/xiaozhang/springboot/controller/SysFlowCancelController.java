@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.controller;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
@@ -63,6 +64,15 @@ public class SysFlowCancelController {
             return save ? Result.success("提交成功!") : Result.fail("提交失败!请稍后再试一次!");
         }
 
+    }
+
+    @GetMapping("/info/{id}")
+    @ApiOperation("销假表单信息,需要token")
+    public Result getInfoById(@PathVariable String id) {
+
+        SysFlowCancel cancelInfoById = sysFlowCancelService.getCancelInfoById(id);
+
+        return ObjectUtil.isNotNull(cancelInfoById) ? Result.success("获取成功") : Result.fail("获取失败");
     }
 
 
