@@ -121,7 +121,7 @@ public class SysFlowApprovalController {
                     break;
                 // 处理销假
                 case "1":
-                    sysFlowApproval.setFlowCancelInfo(sysFlowCancelService.getById(sysFlowApproval.getApplicationId()));
+                    sysFlowApproval.setFlowCancelInfo(sysFlowCancelService.getCancelInfoById(sysFlowApproval.getApplicationId()));
                     break;
                 // 处理加班
                 case "2":

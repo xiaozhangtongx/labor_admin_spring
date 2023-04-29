@@ -15,9 +15,18 @@ public interface SysFlowCancelService extends IService<SysFlowCancel> {
 
     /**
      * 修改状态
-     *  @param approvalResult
+     *
+     * @param approvalResult
      * @param applicationId
      * @return
      */
     boolean updateStatus(Integer approvalResult, String applicationId);
+
+    /**
+     * 通过id获取销假表单信息
+     *
+     * @param id
+     * @return
+     */
+    SysFlowCancel getCancelInfoById(String id);
 }
