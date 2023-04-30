@@ -43,11 +43,9 @@ public class SysCheck implements Serializable {
     private Date updateTime;
 
     @ApiModelProperty(value = "经度")
-    @NotNull(message = "坐标不能为空")
     private Double lon;
 
     @ApiModelProperty(value = "纬度")
-    @NotNull(message = "坐标不能为空")
     private Double lat;
 
     @ApiModelProperty(value = "工作时间")
@@ -64,6 +62,12 @@ public class SysCheck implements Serializable {
 
     @ApiModelProperty(value = "签退时间")
     private Date signOutTime;
+
+    @ApiModelProperty(value = "加班时长")
+    private Double overTime;
+
+    @ApiModelProperty(value = "补充时长")
+    private Double addTime;
 
     @ApiModelProperty(value = "用户信息")
     @TableField(exist = false)
