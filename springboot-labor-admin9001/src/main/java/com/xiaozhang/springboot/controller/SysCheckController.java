@@ -22,12 +22,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -102,17 +104,11 @@ public class SysCheckController {
 
     @PutMapping("/admin/edit")
     @ApiOperation("部门主管修改考勤数据,开发中")
-    public Result editCheck(@RequestBody List<SysCheck> sysChecks) {
+    public Result editCheck(@RequestBody SysCheck sysCheck) {
 
-        List<SysCheck> checkList = null;
+        boolean b = sysCheckService.saveOrUpdate(sysCheck);
 
-        for (SysCheck sysCheck : sysChecks) {
-            checkList.add(sysCheck);
-        }
-
-        sysCheckService.saveOrUpdateBatch(checkList);
-
-        return Result.success("修改");
+        return b ? Result.success("修改成功") : Result.fail("修改失败");
     }
 
 
@@ -138,15 +134,33 @@ public class SysCheckController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result list(@RequestParam String userId, Integer status) {
-        Page<SysCheck> pageData = sysCheckService.page(pageUtils.getPage(), new QueryWrapper<SysCheck>()
-                .like("user_id", userId).like("status", status == null ? "" : status).orderByDesc("create_time"));
+    public Result list(@RequestParam String userId, Integer status, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startTime, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endTime) {
 
-        pageData.getRecords().forEach(sysCheck -> {
+        QueryWrapper<SysCheck> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("user_id", userId).like("status", status == null ? "" : status).orderByDesc("create_time");
+        if (startTime != null) {
+            queryWrapper.ge("create_time", startTime);
+        }
+        if (endTime != null) {
+            queryWrapper.le("create_time", endTime);
+        }
+
+        Page<SysCheck> pageData = sysCheckService.page(pageUtils.getPage(), queryWrapper);
+
+        for (SysCheck sysCheck : pageData.getRecords()) {
             SysUser user = sysUserService.getById(sysCheck.getUserId());
+            if (ObjectUtil.isNull(user)) {
+                continue;
+            }
             user.setPassword("");
             sysCheck.setUser(user);
-        });
+        }
+
+        List<SysCheck> filteredList = pageData.getRecords().stream()
+                .filter(sysCheck -> ObjectUtil.isNotNull(sysCheck.getUser()))
+                .collect(Collectors.toList());
+
+        pageData.setRecords(filteredList);
 
         return Result.success(200, "考勤列表获取成功", pageData, "");
     }
