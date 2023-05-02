@@ -1,9 +1,8 @@
 package com.xiaozhang.springboot.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.domain.SysExam;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 /**
  * <p>
@@ -11,9 +10,15 @@ import java.util.List;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-04-24
+ * @since 2023-05-02
  */
 public interface SysExamService extends IService<SysExam> {
 
-     List<SysExam> getList();
+    /**
+     * 获取试卷数据
+     *
+     * @param id
+     * @return
+     */
+    SysExam getInfoById(String id);
 }

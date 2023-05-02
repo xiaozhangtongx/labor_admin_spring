@@ -5,9 +5,11 @@ import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,7 +21,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-04-24
+ * @since 2023-05-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -50,6 +52,18 @@ public class SysExam implements Serializable {
     @ApiModelProperty(value = "状态")
     private Integer status;
 
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+
+    @ApiModelProperty(value = "考试事项描述")
+    private String des;
+
+    @ApiModelProperty(value = "是否删除")
+    @TableLogic
+    @JsonIgnore
+    private Integer isDeleted;
+
     @TableField(exist = false)
+    @ApiModelProperty(value = "试卷问题")
     private List<SysQuestion> questions;
 }
