@@ -2,19 +2,30 @@ package com.xiaozhang.springboot.service;
 
 import com.xiaozhang.springboot.domain.SysUserExam;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xiaozhang.springboot.domain.postAnswer;
-
-import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-04-24
+ * @since 2023-05-02
  */
 public interface SysUserExamService extends IService<SysUserExam> {
 
-    Double getScore(SysUserExam sysUserExam);
+    /**
+     * 用户答题提交
+     *
+     * @param sysUserExam
+     * @return
+     */
+    SysUserExam addExamAnswer(SysUserExam sysUserExam);
+
+    /**
+     * 用户进入考场
+     *
+     * @param sysUserExam
+     * @return
+     */
+    boolean enterExam(SysUserExam sysUserExam);
 }

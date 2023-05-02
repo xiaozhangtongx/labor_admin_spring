@@ -4,31 +4,41 @@ import java.util.Date;
 import java.io.Serializable;
 import java.util.List;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xiaozhangtx
- * @since 2023-04-24
+ * @since 2023-05-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="SysUserExam对象", description="")
+@ApiModel(value = "SysUserExam对象", description = "")
 public class SysUserExam implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "考试结果")
+    @ApiModelProperty(value = "主键")
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
+
+    @ApiModelProperty(value = "用户id")
+    @NotBlank(message = "用户无效")
     private String userId;
 
     @ApiModelProperty(value = "考试id")
+    @NotBlank(message = "考试id失效")
     private String examId;
 
     @ApiModelProperty(value = "作答开始时间")
@@ -41,7 +51,7 @@ public class SysUserExam implements Serializable {
     private String des;
 
     @ApiModelProperty(value = "成绩")
-    private Double gardes;
+    private Double grades;
 
     @ApiModelProperty(value = "考试状态（是否作弊，超时等等）")
     private Integer status;
@@ -52,10 +62,11 @@ public class SysUserExam implements Serializable {
     @ApiModelProperty(value = "考试用时（s）")
     private Double spendTime;
 
-    @ApiModelProperty(value = "用户提交答案id")
-    private String anserId;
+    @ApiModelProperty(value = "试卷总分")
+    private Double examScore;
 
     @TableField(exist = false)
-    private List<postAnswer> answers;
+    @ApiModelProperty(value = "用户答案列表")
+    private List<SysExamQuestionUser> userAnswerList;
 
 }
