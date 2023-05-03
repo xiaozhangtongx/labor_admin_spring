@@ -46,13 +46,10 @@ public class SysExamQuestion implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "创建者")
-    private String creator;
-
     @ApiModelProperty(value = "分数")
     private Double questionScore;
 
     @ApiModelProperty(value = "试题类型")
-    private Integer questionType;
+    private Long questionType;
 
 }

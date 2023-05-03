@@ -7,10 +7,12 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xiaozhang.springboot.domain.SysCheck;
 import com.xiaozhang.springboot.domain.SysDeptStandard;
+import com.xiaozhang.springboot.domain.SysExam;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.mapper.SysCheckMapper;
 import com.xiaozhang.springboot.service.SysCheckService;
 import com.xiaozhang.springboot.service.SysDeptStandardService;
+import com.xiaozhang.springboot.service.SysExamService;
 import com.xiaozhang.springboot.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -40,6 +42,9 @@ public class SchedulerUtils {
 
     @Autowired
     SysDeptStandardService sysDeptStandardService;
+
+    @Autowired
+    SysExamService sysExamService;
 
     @Autowired(required = false)
     SysCheckMapper sysCheckMapper;
@@ -104,4 +109,14 @@ public class SchedulerUtils {
 
         return sysCheckService.copySysUser();
     }
+
+    /**
+     * 定时任务，每分钟执行一次，用于判定试卷开始
+     */
+    @Scheduled(cron = "0 1 0 * * ?")
+    public void publishExam() {
+        Date now = new Date();
+        sysExamService.updateExamPaperList(now);
+    }
+
 }

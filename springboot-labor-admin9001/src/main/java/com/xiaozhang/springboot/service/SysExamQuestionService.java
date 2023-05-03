@@ -23,4 +23,12 @@ public interface SysExamQuestionService extends IService<SysExamQuestion> {
      * @return
      */
     List<SysQuestion> getExamQuestions(String examId);
+
+    /**
+     * 删除所有的问题
+     *
+     * @param id
+     * @return
+     */
+    boolean removeByExamId(String id);
 }
