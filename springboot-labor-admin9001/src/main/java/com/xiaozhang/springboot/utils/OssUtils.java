@@ -45,7 +45,6 @@ public class OssUtils {
 
         List<String> urls = new ArrayList<>();
 
-
         // 遍历图片数组，提交上传任务
         for (String imageData : imageList) {
             byte[] data = Base64.decode(imageData);
@@ -77,7 +76,6 @@ public class OssUtils {
         ClientBuilderConfiguration conf = new ClientBuilderConfiguration();
         // 设置失败请求重试次数，默认值为3次。
         conf.setMaxErrorRetry(5);
-        OSS ossClient = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
         // 创建线程池，用于多线程上传
         ExecutorService executor = ExecutorBuilder.create()
                 .setCorePoolSize(5)
@@ -91,8 +89,11 @@ public class OssUtils {
             executor.submit(() -> {
                 try {
                     // 开始上传任务
+                    OSS ossClient = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+
                     ossClient.putObject(putRequest);
 
+                    ossClient.shutdown();
                     // 输出图片 URL
                     String imageUrl = "https://" + BUCKET_NAME + "." + ENDPOINT + "/" + imageName;
                     log.info("Image uploaded successfully: " + imageUrl);
