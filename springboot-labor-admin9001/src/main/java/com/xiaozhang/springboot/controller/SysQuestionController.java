@@ -60,10 +60,10 @@ public class SysQuestionController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result getQuestionList(@RequestParam String questionId, Long type, String tag) {
+    public Result getQuestionList(String title, Long type, String tag) {
 
         Page<SysQuestion> pageData = sysQuestionService.page(pageUtil.getPage(), new QueryWrapper<SysQuestion>()
-                .like("id", questionId).like("type", type == null ? "" : type).like("tag", tag));
+                .like("title", title == null ? "" : title).like("type", type == null ? "" : type).like("tag", tag == null ? "" : tag));
 
         pageData.getRecords().forEach(sysQuestion -> {
 

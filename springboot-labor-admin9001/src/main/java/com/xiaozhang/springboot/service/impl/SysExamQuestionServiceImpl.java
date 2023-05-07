@@ -53,4 +53,12 @@ public class SysExamQuestionServiceImpl extends ServiceImpl<SysExamQuestionMappe
 
         return sysQuestion;
     }
+
+    @Override
+    public boolean removeByExamId(String id) {
+        int flag = sysExamQuestionMapper.delete(new QueryWrapper<SysExamQuestion>()
+                .eq("exam_id", id));
+
+        return flag > 0;
+    }
 }
