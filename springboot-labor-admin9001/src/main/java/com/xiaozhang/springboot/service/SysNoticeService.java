@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysNoticeService extends IService<SysNotice> {
 
+    /**
+     * 删除公告
+     *
+     * @param id
+     * @return
+     */
+    Boolean deleteById(String id);
 }

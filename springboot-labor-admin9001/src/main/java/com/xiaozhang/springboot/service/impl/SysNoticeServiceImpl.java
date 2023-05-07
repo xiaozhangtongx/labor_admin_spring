@@ -4,6 +4,7 @@ import com.xiaozhang.springboot.domain.SysNotice;
 import com.xiaozhang.springboot.mapper.SysNoticeMapper;
 import com.xiaozhang.springboot.service.SysNoticeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysNoticeServiceImpl extends ServiceImpl<SysNoticeMapper, SysNotice> implements SysNoticeService {
 
+    @Autowired(required = false)
+    SysNoticeMapper sysNoticeMapper;
+
+    @Override
+    public Boolean deleteById(String id) {
+        return sysNoticeMapper.deleteById(id) > 0;
+    }
 }

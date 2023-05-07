@@ -44,6 +44,15 @@ public class SysNoticeController {
     @Autowired
     PageUtils pageUtils;
 
+    @GetMapping("/info/{id}")
+    @ApiOperation("获取题目内容,需要token")
+    public Result getNoticeInfo(@PathVariable(name = "id") String id) {
+
+        SysNotice sysNoticeInfoById = sysNoticeService.getById(id);
+
+        return Result.success(200, "公告信息获取成功", sysNoticeInfoById, "");
+    }
+
     @PostMapping("/add")
     @ApiOperation("创建通知,需要token")
     @Transactional(rollbackFor = Exception.class)
@@ -84,5 +93,28 @@ public class SysNoticeController {
 
         return Result.success(200, "公告列表获取成功", pageData, "");
     }
+
+    @PutMapping("/update")
+    @ApiOperation("更新公告,需要token")
+    @Transactional(rollbackFor = Exception.class)
+    public Result update(@Validated @RequestBody SysNotice sysNotice) {
+
+        sysNotice.setUpdateTime(new Date());
+
+        boolean flag = sysNoticeService.updateById(sysNotice);
+
+        return flag ? Result.success("修改成功") : Result.fail("修改失败");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation("删除公告,需要token")
+    @Transactional(rollbackFor = Exception.class)
+    public Result delete(@PathVariable("id") String id) {
+
+        Boolean flag = sysNoticeService.deleteById(id);
+
+        return flag ? Result.success("删除成功") : Result.fail("删除失败");
+    }
+
 }
 
