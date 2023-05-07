@@ -20,9 +20,9 @@ public class OssUtils {
 
     private static final String endpoint = "oss-cn-shenzhen.aliyuncs.com";
 
-    private static final String accessKeyId = "xxx";
+    private static final String accessKeyId = "LTAI5tNJMLjaTELSPba3bBBn";
 
-    private static final String accessKeySecret = "xxx";
+    private static final String accessKeySecret = "SAt2NU1TpV7tYexoGzGNl0PpLInznS";
 
     private static final String bucketName = "labor-safe";
 
@@ -42,7 +42,8 @@ public class OssUtils {
         for (String url : urls) {
             String fileName = new DateTime().toString("yyyy/MM/dd")
                     + UUID.randomUUID().toString().replace("-", "")+index+".png";
-            uploadUrls.add(fileName);
+            uploadUrls.add("http://" + bucketName + "." + endpoint + "/" +fileName);
+            System.out.println((fileName));
             uploaderThread = new Thread(new Fileuploader(url,start,nums,index,fileName));
             uploaderThread.start();
             index++;
@@ -63,7 +64,7 @@ public class OssUtils {
         private final Integer index;
         private final String fileName;
         public Fileuploader(String fileURL,Long start,Integer nums,Integer index,String fileName) {
-            this.fileURL = fileURL;
+            this.fileURL = fileURL.split(",")[1];
             this.start = start;
             this.nums= nums;
             this.index= index;
@@ -73,6 +74,7 @@ public class OssUtils {
         public void run() {
             try {
                 System.out.println("线程"+index+"开始执行："+System.currentTimeMillis());
+//                System.out.println("------------->上传的数据为"+fileURL);
                 byte[] bytesFile = Base64.decode(fileURL);
                 InputStream inputStream = new ByteArrayInputStream(bytesFile);
                 ossClient.putObject(bucketName, fileName, inputStream);
@@ -88,7 +90,7 @@ public class OssUtils {
             finally {
                 if(finish.equals(nums))
                 {
-                    ossClient.shutdown();
+//                    ossClient.shutdown();
                 }
                 else {
                     finish=finish+1;

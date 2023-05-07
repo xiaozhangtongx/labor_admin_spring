@@ -46,4 +46,7 @@ public class SysUploadUnsafe implements Serializable {
     @TableField(exist = false)
     private List<String> datas;
 
+    @TableField(exist = false)
+    private String phoneNum;
+
 }

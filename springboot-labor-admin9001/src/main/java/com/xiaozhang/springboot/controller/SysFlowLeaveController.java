@@ -80,7 +80,7 @@ public class SysFlowLeaveController {
     public Result list(@RequestParam String userId) {
 
         Page<SysFlowLeave> pageData = sysFlowLeaveService.page(pageUtil.getPage(), new QueryWrapper<SysFlowLeave>()
-                .like("user_id", userId));
+                .like("user_id", userId).orderByDesc("create_time"));
 
         pageData.getRecords().forEach(leaveFlow -> {
             SysUser leader = sysUserService.getById(leaveFlow.getLeaderId());

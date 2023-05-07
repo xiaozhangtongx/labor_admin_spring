@@ -3,6 +3,7 @@ package com.xiaozhang.springboot.controller;
 
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysUploadUnsafe;
+import com.xiaozhang.springboot.service.SysUploadUnsafeService;
 import com.xiaozhang.springboot.utils.OssUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +29,16 @@ public class SysUploadUnsafeController {
     @Autowired
     private OssUtils ossUtils;
 
+    @Autowired
+    private SysUploadUnsafeService service;
+
     @PostMapping("/uploadUnsafe")
     public Result uploadUnsafe(@RequestBody SysUploadUnsafe sysUploadUnsafe)
     {
+//        System.out.println("-------------》》》数据为"+sysUploadUnsafe);
         List<String> urls = ossUtils.uploadOneFile(sysUploadUnsafe.getDatas());
-        return Result.success(200,"获取成功",urls,"");
+//        System.out.println("---------------->>>>>"+urls);
+        service.saveUrls(sysUploadUnsafe,urls);
+        return Result.success(200,"获取成功","","");
     }
 }

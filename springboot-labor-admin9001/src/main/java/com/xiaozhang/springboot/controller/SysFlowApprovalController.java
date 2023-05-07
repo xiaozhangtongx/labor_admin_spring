@@ -1,10 +1,12 @@
 package com.xiaozhang.springboot.controller;
 
 
+import cn.hutool.core.map.MapBuilder;
+import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
-import com.xiaozhang.springboot.domain.SysFlowApproval;
+import com.xiaozhang.springboot.domain.*;
 import com.xiaozhang.springboot.service.*;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
@@ -18,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * <p>
@@ -137,5 +140,37 @@ public class SysFlowApprovalController {
         }
 
         return Result.success(200, "审批列表获取成功", pageData, "");
+    }
+
+    @GetMapping("/info")
+    public Result getInfo(@RequestParam("id") String flowId,@RequestParam String applicationType)
+    {
+        SysFlowApproval approvalInfo = sysFlowApprovalService.getOne(new QueryWrapper<SysFlowApproval>().eq("application_id",flowId));
+        Map<Object, Object> approvalDetail = MapUtil.builder().put("approvalDetail", approvalInfo).build();
+        switch (applicationType) {
+            // 处理请假
+            case "leave":
+                SysFlowLeave leaveInfo = sysFlowLeaveService.getLeaveInfoById(flowId);
+                approvalDetail.put("Info",leaveInfo);
+                break;
+            // 处理销假
+            case "cancel":
+                SysFlowCancel cancelInfo = sysFlowCancelService.getCancelInfoById(flowId);
+                approvalDetail.put("Info",cancelInfo);
+                break;
+                // 处理加班
+            case "over":
+                SysFlowOvertime overInfo = sysFlowOvertimeService.getOverTimeInfoById(flowId);
+                approvalDetail.put("Info",overInfo);
+                break;
+                // 处理补办
+            case "work":
+                SysFlowWorktime workInfo = sysFlowWorktimeService.getWorkTimeInfoById(flowId);
+                approvalDetail.put("Info",workInfo);
+                break;
+            default:
+                return Result.fail("无相关操作");
+        }
+        return Result.success(200,"审批详情获取成功",approvalDetail,"");
     }
 }
