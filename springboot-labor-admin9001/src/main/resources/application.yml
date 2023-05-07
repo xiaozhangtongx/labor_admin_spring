@@ -21,6 +21,11 @@ spring:
     username: root
     password: '@Zjf20010907'
     druid: classpath:druid.properties
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+      enabled: true
 
 # MybatisPlus配置
 mybatis-plus:
@@ -46,4 +51,3 @@ xiaozhang:
 # log4j配置
 logging:
   config: classpath:log4j.xml
-
