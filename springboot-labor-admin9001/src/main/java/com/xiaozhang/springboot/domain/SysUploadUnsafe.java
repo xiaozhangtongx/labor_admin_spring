@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
@@ -43,10 +44,19 @@ public class SysUploadUnsafe implements Serializable {
     @ApiModelProperty(value = "现场描述")
     private String content;
 
+    @ApiModelProperty(value = "上传时间")
+    private Date createTime;
+
+    @ApiModelProperty(value = "标题")
+    private String title;
+
     @TableField(exist = false)
     private List<String> datas;
 
     @TableField(exist = false)
     private String phoneNum;
+
+    @TableField(exist = false)
+    private SysUser labor;
 
 }

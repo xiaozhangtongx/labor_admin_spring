@@ -34,10 +34,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Scope("prototype")
 public class OssUtils {
 
-    private static final String ENDPOINT = "oss-cn-beijing.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI5tJukUY5o6zeMX18XQXG";
-    private static final String ACCESS_KEY_SECRET = "i6e0yova1mHN8ZXFOusZRFMAzEiA20";
-    private static final String BUCKET_NAME = "laboradmin";
+    private static final String ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
+    private static final String ACCESS_KEY_ID = "LTAI5tNJMLjaTELSPba3bBBn";
+    private static final String ACCESS_KEY_SECRET = "SAt2NU1TpV7tYexoGzGNl0PpLInznS";
+    private static final String BUCKET_NAME = "labor-safe";
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 
@@ -65,7 +65,7 @@ public class OssUtils {
 
             uploadImage(imageName, inputStream, metadata);
 
-            String imageUrl = "https://" + BUCKET_NAME + "." + ENDPOINT + "/" + imageName;
+            String imageUrl = "http://" + BUCKET_NAME + "." + ENDPOINT + "/" + imageName;
             urls.add(imageUrl);
 
         }

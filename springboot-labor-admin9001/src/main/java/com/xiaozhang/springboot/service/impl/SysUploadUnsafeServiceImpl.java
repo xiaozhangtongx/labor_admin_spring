@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +39,10 @@ public class SysUploadUnsafeServiceImpl extends ServiceImpl<SysUploadUnsafeMappe
         sysUploadUnsafe.setLaborId(labor.getId());
 
         sysUploadUnsafe.setImgUrl(String.join(";",urls));
+
+        sysUploadUnsafe.setTitle("xxx组今日安全公告");
+
+        sysUploadUnsafe.setCreateTime(new Date());
 
         Integer result=sysUploadUnsafeMapper.insert(sysUploadUnsafe);
 
