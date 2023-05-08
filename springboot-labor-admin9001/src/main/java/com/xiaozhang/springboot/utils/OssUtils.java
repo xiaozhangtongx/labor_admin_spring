@@ -44,7 +44,8 @@ public class OssUtils {
 
         // 遍历图片数组，提交上传任务
         for (String imageData : imageList) {
-            byte[] data = Base64.decode(imageData);
+            String[] dataArray = imageData.split(",");
+            byte[] data = Base64.decode(dataArray[1]);
 
             // 如果图片大小超过 5MB，进行拦截
             if (data.length > MAX_FILE_SIZE) {
