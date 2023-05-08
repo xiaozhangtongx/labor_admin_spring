@@ -71,7 +71,7 @@ public class SysStudyData implements Serializable {
     @ApiModelProperty(value = "是否删除")
     @JsonIgnore
     @TableLogic()
-    private Integer isDelete;
+    private Integer isDeleted;
 
     @TableField(exist = false)
     @ApiModelProperty(value = "发布者信息")
