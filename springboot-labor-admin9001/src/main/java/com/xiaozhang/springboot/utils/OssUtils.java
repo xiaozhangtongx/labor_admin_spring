@@ -63,7 +63,7 @@ public class OssUtils {
 
             uploadImage(imageName, inputStream, metadata);
 
-            String imageUrl = "http://" + BUCKET_NAME + "." + ENDPOINT + "/" + imageName;
+            String imageUrl = "https://" + BUCKET_NAME + "." + ENDPOINT + "/" + imageName;
             urls.add(imageUrl);
 
         }
