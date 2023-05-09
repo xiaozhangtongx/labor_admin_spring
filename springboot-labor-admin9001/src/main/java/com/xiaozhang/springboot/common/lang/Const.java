@@ -9,5 +9,5 @@ package com.xiaozhang.springboot.common.lang;
  */
 public class Const {
     public static final String DEFULT_PASSWORD = "123456";
-    public static final String DEFULT_AVATOR = "https://p9.itc.cn/q_70/images03/20210305/b015b688fc764adeae14bdf8ce3dec78.jpeg";
+    public static final String DEFULT_AVATOR = "https://laboradmin.oss-cn-beijing.aliyuncs.com/img/2023/05/R.jpg";
 }
