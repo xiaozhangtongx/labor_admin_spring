@@ -113,7 +113,10 @@ public class SysFlowApprovalController {
     public Result list(@RequestParam String approverId, Integer status, String applicationType) {
 
         Page<SysFlowApproval> pageData = sysFlowApprovalService.page(pageUtil.getPage(), new QueryWrapper<SysFlowApproval>()
-                .eq("approver_id", approverId).like("status", status == null ? "" : status).eq("application_type", applicationType));
+                .eq("approver_id", approverId)
+                .like("status", status == null ? "" : status)
+                .eq("application_type", applicationType)
+                .orderByDesc("create_time"));
 
         // 根据审批类型处理对应的方法
         for (SysFlowApproval sysFlowApproval : pageData.getRecords()) {
@@ -143,34 +146,33 @@ public class SysFlowApprovalController {
     }
 
     @GetMapping("/info")
-    public Result getInfo(@RequestParam("id") String flowId,@RequestParam String applicationType)
-    {
-        SysFlowApproval approvalInfo = sysFlowApprovalService.getOne(new QueryWrapper<SysFlowApproval>().eq("application_id",flowId));
+    public Result getInfo(@RequestParam("id") String flowId, @RequestParam String applicationType) {
+        SysFlowApproval approvalInfo = sysFlowApprovalService.getOne(new QueryWrapper<SysFlowApproval>().eq("application_id", flowId));
         Map<Object, Object> approvalDetail = MapUtil.builder().put("approvalDetail", approvalInfo).build();
         switch (applicationType) {
             // 处理请假
             case "leave":
                 SysFlowLeave leaveInfo = sysFlowLeaveService.getLeaveInfoById(flowId);
-                approvalDetail.put("Info",leaveInfo);
+                approvalDetail.put("Info", leaveInfo);
                 break;
             // 处理销假
             case "cancel":
                 SysFlowCancel cancelInfo = sysFlowCancelService.getCancelInfoById(flowId);
-                approvalDetail.put("Info",cancelInfo);
+                approvalDetail.put("Info", cancelInfo);
                 break;
-                // 处理加班
+            // 处理加班
             case "over":
                 SysFlowOvertime overInfo = sysFlowOvertimeService.getOverTimeInfoById(flowId);
-                approvalDetail.put("Info",overInfo);
+                approvalDetail.put("Info", overInfo);
                 break;
-                // 处理补办
+            // 处理补办
             case "work":
                 SysFlowWorktime workInfo = sysFlowWorktimeService.getWorkTimeInfoById(flowId);
-                approvalDetail.put("Info",workInfo);
+                approvalDetail.put("Info", workInfo);
                 break;
             default:
                 return Result.fail("无相关操作");
         }
-        return Result.success(200,"审批详情获取成功",approvalDetail,"");
+        return Result.success(200, "审批详情获取成功", approvalDetail, "");
     }
 }

@@ -77,7 +77,7 @@ public class SysFlowOvertimeController {
     public Result list(@RequestParam String userId) {
 
         Page<SysFlowOvertime> pageData = sysFlowOvertimeService.page(pageUtil.getPage(), new QueryWrapper<SysFlowOvertime>()
-                .like("user_id", userId));
+                .like("user_id", userId).orderByDesc("create_time"));
 
         return Result.success(200, "请假列表获取成功", pageData, "");
     }

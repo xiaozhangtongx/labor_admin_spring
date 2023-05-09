@@ -63,7 +63,7 @@ public class SysQuestionController {
     public Result getQuestionList(String title, Long type, String tag) {
 
         Page<SysQuestion> pageData = sysQuestionService.page(pageUtil.getPage(), new QueryWrapper<SysQuestion>()
-                .like("title", title == null ? "" : title).like("type", type == null ? "" : type).like("tag", tag == null ? "" : tag));
+                .like("title", title == null ? "" : title).like("type", type == null ? "" : type).like("tag", tag == null ? "" : tag).orderByDesc("create_time"));
 
         pageData.getRecords().forEach(sysQuestion -> {
 

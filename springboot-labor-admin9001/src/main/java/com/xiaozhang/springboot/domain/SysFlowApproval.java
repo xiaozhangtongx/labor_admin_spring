@@ -58,6 +58,9 @@ public class SysFlowApproval implements Serializable {
     @ApiModelProperty(value = "处理状态（0-已处理/1-未处理）")
     private Integer status;
 
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+
     @TableField(exist = false)
     @ApiModelProperty(value = "请假表单详细信息")
     private SysFlowLeave flowLeaveInfo;

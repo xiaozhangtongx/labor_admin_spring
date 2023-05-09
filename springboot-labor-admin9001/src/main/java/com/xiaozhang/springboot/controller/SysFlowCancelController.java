@@ -85,7 +85,7 @@ public class SysFlowCancelController {
     public Result list(@RequestParam String userId) {
 
         Page<SysFlowCancel> pageData = sysFlowCancelService.page(pageUtil.getPage(), new QueryWrapper<SysFlowCancel>()
-                .like("user_id", userId));
+                .like("user_id", userId).orderByDesc("create_time"));
 
         pageData.getRecords().forEach(cancelFlow -> {
             SysUser leader = sysUserService.getById(cancelFlow.getLeaderId());
