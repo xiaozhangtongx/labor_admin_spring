@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.controller;
 
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -68,11 +69,16 @@ public class SysCheckController {
     @Transactional(rollbackFor = Exception.class)
     public Result addCheck(@RequestBody @Validated SysCheck sysCheck) {
 
-        System.out.println("-------------------->>>>接受到相关数据"+sysCheck);
+        System.out.println("-------------------->>>>接受到相关数据" + sysCheck);
 
-        SysUser userInfo = sysUserService.getById(sysCheck.getUserId());
+        SysUser userInfoById = sysUserService.getInfoById(sysCheck.getUserId());
+        SysDeptStandard standard = new SysDeptStandard();
 
-        SysDeptStandard standard = sysDeptStandardService.getRuleById(userInfo.getDeptId());
+        if (ObjectUtil.isNotNull(userInfoById.getSysDept())) {
+            standard = sysDeptStandardService.getRuleById(userInfoById.getSysDept().getId());
+        } else {
+            Assert.notNull(userInfoById.getSysDept(), "该用户部门不存在");
+        }
 
         double distance = mathUtils.calculateDistance(standard.getLat(), standard.getLon(), sysCheck.getLat(), sysCheck.getLon());
 

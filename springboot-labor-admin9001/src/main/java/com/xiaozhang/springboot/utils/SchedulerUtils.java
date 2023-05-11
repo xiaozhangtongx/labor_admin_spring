@@ -2,6 +2,7 @@ package com.xiaozhang.springboot.utils;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -80,8 +81,14 @@ public class SchedulerUtils {
                 sysCheck.setWorkTime(duration);
 
                 // 获取部门标准
-                SysUser userInfoById = sysUserService.getById(sysCheck.getUserId());
-                SysDeptStandard ruleById = sysDeptStandardService.getRuleById(userInfoById.getDeptId());
+                SysUser userInfoById = sysUserService.getInfoById(sysCheck.getUserId());
+                SysDeptStandard ruleById = new SysDeptStandard();
+
+                if (ObjectUtil.isNotNull(userInfoById.getSysDept())) {
+                    ruleById = sysDeptStandardService.getRuleById(userInfoById.getSysDept().getId());
+                } else {
+                    Assert.notNull(userInfoById.getSysDept(), "该用户部门不存在");
+                }
 
                 if (sysCheck.getSignInTime().after(ruleById.getLatestTime())) {
                     sysCheck.setDes("你今天迟到了！");

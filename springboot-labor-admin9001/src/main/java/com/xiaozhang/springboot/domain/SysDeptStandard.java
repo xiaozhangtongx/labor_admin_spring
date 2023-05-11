@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -65,5 +68,13 @@ public class SysDeptStandard implements Serializable {
     @NotNull(message = "打卡半径不能为空")
     private Double radius;
 
+    @TableField(exist = false)
+    @ApiModelProperty(value = "部门信息")
+    private SysDept sysDept;
 
+    @ApiModelProperty(value = "更新时间")
+    private Date updateTime;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
 }

@@ -1,5 +1,6 @@
 package com.xiaozhang.springboot.service.impl;
 
+import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhang.springboot.domain.SysRole;
@@ -7,6 +8,7 @@ import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.mapper.SysUserMapper;
 import com.xiaozhang.springboot.service.SysMenuService;
 import com.xiaozhang.springboot.service.SysRoleService;
+import com.xiaozhang.springboot.service.SysUserDeptService;
 import com.xiaozhang.springboot.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     SysRoleService sysRoleService;
+
+    @Autowired
+    SysUserDeptService sysUserDeptService;
 
     @Override
     public String getUserAuthorityInfo(String userId) {
@@ -83,5 +88,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Boolean deleteByIds(List<String> idList) {
         Integer lines = sysUserMapper.deleteBatchIds(idList);
         return lines != 0;
+    }
+
+    @Override
+    public SysUser getInfoById(String id) {
+
+        SysUser sysUser = getById(id);
+        Assert.notNull(sysUser, "找不到该用户");
+        sysUser.setPassword("");
+        sysUser.setSysDept(sysUserDeptService.getUserDeptInfo(sysUser.getId()));
+        List<SysRole> roles = getUserRoles(id);
+        sysUser.setRoles(roles);
+        return sysUser;
     }
 }

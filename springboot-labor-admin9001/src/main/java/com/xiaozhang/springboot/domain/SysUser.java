@@ -52,9 +52,6 @@ public class SysUser implements Serializable {
     @NotBlank(message = "电话号码不能为空")
     private String phoneNum;
 
-    @ApiModelProperty(value = "部门id")
-    private String deptId;
-
     @ApiModelProperty(value = "头像")
     private String avatar;
 
@@ -84,5 +81,9 @@ public class SysUser implements Serializable {
     @TableField(exist = false)
     @ApiModelProperty(value = "用户角色列表")
     private List<SysRole> roles;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "用户所在部门")
+    private SysDept sysDept;
 
 }

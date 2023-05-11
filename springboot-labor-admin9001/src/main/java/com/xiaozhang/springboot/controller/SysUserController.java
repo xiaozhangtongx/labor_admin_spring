@@ -10,6 +10,7 @@ import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.domain.SysUserRole;
+import com.xiaozhang.springboot.service.SysUserDeptService;
 import com.xiaozhang.springboot.service.SysUserRoleService;
 import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
@@ -51,6 +52,9 @@ public class SysUserController {
     SysUserRoleService sysUserRoleService;
 
     @Autowired
+    SysUserDeptService sysUserDeptService;
+
+    @Autowired
     PageUtils pageUtil;
 
     @Autowired
@@ -81,6 +85,7 @@ public class SysUserController {
 
         pageData.getRecords().forEach(user -> {
             user.setRoles(sysUserService.getUserRoles(user.getId()));
+            user.setSysDept(sysUserDeptService.getUserDeptInfo(user.getId()));
             user.setPassword(null);
         });
 
@@ -91,11 +96,9 @@ public class SysUserController {
     @ApiOperation("通过id获取用户,需要token")
     public Result getUserInfoById(@PathVariable("id") String id) {
 
-        SysUser sysUser = sysUserService.getById(id);
-        Assert.notNull(sysUser, "找不到该用户");
-        List<SysRole> roles = sysUserService.getUserRoles(id);
-        sysUser.setRoles(roles);
-        sysUser.setPassword(null);
+        SysUser sysUser = sysUserService.getInfoById(id);
+
+
 
         return Result.success(200, "查询成功", sysUser, "");
     }

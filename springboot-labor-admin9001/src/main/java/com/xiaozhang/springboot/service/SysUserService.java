@@ -63,4 +63,10 @@ public interface SysUserService extends IService<SysUser> {
      */
     Boolean deleteByIds(List<String> asList);
 
+    /**
+     * 通过id获取数据
+     * @param id
+     * @return
+     */
+    SysUser getInfoById(String id);
 }
