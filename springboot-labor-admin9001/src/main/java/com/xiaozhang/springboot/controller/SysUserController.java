@@ -1,10 +1,16 @@
 package com.xiaozhang.springboot.controller;
 
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.CircleCaptcha;
+import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.code.kaptcha.Producer;
 import com.xiaozhang.springboot.common.lang.Const;
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysRole;
@@ -24,7 +30,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Encoder;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +72,7 @@ public class SysUserController {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
+
     @GetMapping("/userInfo")
     @ApiOperation("登录获取用户信息,需要token")
     public Result getUserInfoByPhoneNum(Principal principal) {
@@ -70,6 +83,29 @@ public class SysUserController {
         sysUser.setPassword(null);
 
         return Result.success(200, "用户信息获取成功", sysUser, "");
+    }
+
+    @GetMapping("/code")
+    @ApiOperation("获取验证码")
+    public Result getRandomValidateCode() throws IOException {
+
+        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 100, 4, 20);
+        String code = captcha.getCode();
+        BufferedImage image = (BufferedImage) captcha.createImage(code);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", outputStream);
+
+        BASE64Encoder encoder = new BASE64Encoder();
+        String str = "data:image/jpeg;base64,";
+
+        String base64Img = str + encoder.encode(outputStream.toByteArray());
+
+        return Result.success(200, "验证码获取成功",
+                MapUtil.builder()
+                        .put("code", code)
+                        .put("captchaImg", base64Img)
+                        .build(), ""
+        );
     }
 
     @GetMapping("/list")
@@ -97,7 +133,6 @@ public class SysUserController {
     public Result getUserInfoById(@PathVariable("id") String id) {
 
         SysUser sysUser = sysUserService.getInfoById(id);
-
 
 
         return Result.success(200, "查询成功", sysUser, "");

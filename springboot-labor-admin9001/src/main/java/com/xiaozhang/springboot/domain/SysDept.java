@@ -56,13 +56,16 @@ public class SysDept implements Serializable {
     private Date createTime;
 
     @TableField(exist = false)
-    @ApiModelProperty(value = "部门数据问题")
+    @ApiModelProperty(value = "部门数据")
     private List<SysUserDept> sysUserDeptList;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "部门领导列表（默认，为项目经理）")
+    private List<SysUser> leaders;
 
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
     @TableLogic
     @JsonIgnore
     private Integer isDeleted;
-
 
 }
