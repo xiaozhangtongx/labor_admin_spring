@@ -27,7 +27,7 @@ public interface SysDeptService extends IService<SysDept> {
      * @param sysDept
      * @return
      */
-    boolean addQuestion(SysDept sysDept);
+    boolean addDept(SysDept sysDept);
 
     /**
      * 修改部门

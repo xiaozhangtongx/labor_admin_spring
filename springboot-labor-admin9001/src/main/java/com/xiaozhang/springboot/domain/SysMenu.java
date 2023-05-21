@@ -87,4 +87,7 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "菜单状态")
     private Integer status;
 
+    @ApiModelProperty(value = "是否隐藏（0-隐藏，显示）")
+    private Integer hidden;
+
 }

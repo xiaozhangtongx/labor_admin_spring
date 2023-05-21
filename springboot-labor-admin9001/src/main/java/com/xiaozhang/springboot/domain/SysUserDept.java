@@ -39,8 +39,8 @@ public class SysUserDept implements Serializable {
     @ApiModelProperty(value = "部门id")
     private String deptId;
 
-    @ApiModelProperty(value = "职位id")
-    private String roleId;
+    @ApiModelProperty(value = "是否为管理员")
+    private Integer isAdmin;
 
     @ApiModelProperty(value = "进入时间")
     private Date createTime;
@@ -54,10 +54,6 @@ public class SysUserDept implements Serializable {
     @TableField(exist = false)
     @ApiModelProperty(value = "用户所在部门")
     private SysDept sysDept;
-
-    @TableField(exist = false)
-    @ApiModelProperty(value = "用户所在部门的角色")
-    private SysRole sysRole;
 
     @TableField(exist = false)
     @ApiModelProperty(value = "用户信息")

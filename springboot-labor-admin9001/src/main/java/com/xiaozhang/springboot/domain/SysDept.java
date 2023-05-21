@@ -43,6 +43,10 @@ public class SysDept implements Serializable {
     @NotBlank(message = "部门名称不能为空")
     private String deptName;
 
+    @ApiModelProperty(value = "部门职责")
+    @NotBlank(message = "部门职责不能为空")
+    private String des;
+
     @ApiModelProperty(value = "部门层级")
     private Integer level;
 

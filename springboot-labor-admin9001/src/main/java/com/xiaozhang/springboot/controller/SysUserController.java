@@ -134,7 +134,6 @@ public class SysUserController {
 
         SysUser sysUser = sysUserService.getInfoById(id);
 
-
         return Result.success(200, "查询成功", sysUser, "");
     }
 

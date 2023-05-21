@@ -42,38 +42,17 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     }
 
     @Override
-    public boolean addQuestion(SysDept sysDept) {
-        String id = IdUtil.simpleUUID();
+    public boolean addDept(SysDept sysDept) {
 
-        List<SysUserDept> sysUserDeptList = new ArrayList();
-
-        for (SysUserDept sysUserDeptItem : sysDept.getSysUserDeptList()) {
-            sysUserDeptItem.setDeptId(id);
-            sysUserDeptItem.setCreateTime(new Date());
-            sysUserDeptList.add(sysUserDeptItem);
-        }
-
-        boolean b = sysUserDeptService.saveBatch(sysUserDeptList);
-
-        sysDept.setId(id);
         sysDept.setCreateTime(new Date());
 
         boolean save = save(sysDept);
 
-        return b && save;
+        return save;
     }
 
     @Override
     public boolean editDept(SysDept sysDept) {
-        // 首先删除问题选项
-        boolean deptId = sysUserDeptService.removeByDeptId(sysDept.getId());
-
-        // 然后插入问题子选项
-        boolean b = sysUserDeptService.saveBatch(sysDept.getSysUserDeptList());
-
-        // 最后更新
-        boolean b1 = updateById(sysDept);
-
-        return deptId && b && b1;
+        return updateById(sysDept);
     }
 }

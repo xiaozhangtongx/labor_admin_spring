@@ -51,7 +51,6 @@ public class SysUserDeptServiceImpl extends ServiceImpl<SysUserDeptMapper, SysUs
 
         sysUserDeptList.forEach(sysUserDept -> {
             sysUserDept.setSysUser(sysUserService.getInfoById(sysUserDept.getUserId()));
-            sysUserDept.setSysRole(sysRoleService.getById(sysUserDept.getRoleId()));
         });
 
 

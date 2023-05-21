@@ -44,10 +44,12 @@ public class SysDeptController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result getQuestionList(String deptName) {
+    public Result getQuestionList(String deptName, String parentId) {
 
         Page<SysDept> pageData = sysDeptService.page(pageUtils.getPage(), new QueryWrapper<SysDept>()
                 .like("dept_name", deptName == null ? "" : deptName)
+                .like("parent_id", parentId == null ? "" : parentId)
+                .like("id", parentId == null ? "" : parentId)
                 .orderByDesc("create_time"));
 
         return Result.success(200, "部门列表获取成功", pageData, "");
@@ -70,7 +72,7 @@ public class SysDeptController {
 
         sysDept.setCreateTime(new Date());
 
-        boolean flag = sysDeptService.addQuestion(sysDept);
+        boolean flag = sysDeptService.addDept(sysDept);
 
         return flag ? Result.success("添加成功") : Result.fail("添加失败");
     }
