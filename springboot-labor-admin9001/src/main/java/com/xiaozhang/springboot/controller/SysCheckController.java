@@ -6,10 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
-import com.xiaozhang.springboot.domain.SysCheck;
-import com.xiaozhang.springboot.domain.SysDeptStandard;
-import com.xiaozhang.springboot.domain.SysFlowLeave;
-import com.xiaozhang.springboot.domain.SysUser;
+import com.xiaozhang.springboot.domain.*;
 import com.xiaozhang.springboot.service.SysCheckService;
 import com.xiaozhang.springboot.service.SysDeptStandardService;
 import com.xiaozhang.springboot.service.SysUserService;
@@ -69,13 +66,14 @@ public class SysCheckController {
     @Transactional(rollbackFor = Exception.class)
     public Result addCheck(@RequestBody @Validated SysCheck sysCheck) {
 
-        SysUser userInfoById = sysUserService.getInfoById(sysCheck.getUserId());
+        SysDept sysDeptInfo = sysUserService.getDeptInfoById(sysCheck.getUserId());
+
         SysDeptStandard standard = new SysDeptStandard();
 
-        if (ObjectUtil.isNotNull(userInfoById.getSysDept())) {
-            standard = sysDeptStandardService.getRuleById(userInfoById.getSysDept().getId());
+        if (ObjectUtil.isNotNull(sysDeptInfo)) {
+            standard = sysDeptStandardService.getRuleById(sysDeptInfo.getId());
         } else {
-            Assert.notNull(userInfoById.getSysDept(), "该用户部门不存在");
+            Assert.notNull(sysDeptInfo, "该用户部门不存在");
         }
 
         double distance = mathUtils.calculateDistance(standard.getLat(), standard.getLon(), sysCheck.getLat(), sysCheck.getLon());

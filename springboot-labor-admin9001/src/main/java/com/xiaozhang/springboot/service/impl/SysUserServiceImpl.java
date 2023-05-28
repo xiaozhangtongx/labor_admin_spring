@@ -3,12 +3,9 @@ package com.xiaozhang.springboot.service.impl;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xiaozhang.springboot.domain.SysRole;
-import com.xiaozhang.springboot.domain.SysUser;
+import com.xiaozhang.springboot.domain.*;
 import com.xiaozhang.springboot.mapper.SysUserMapper;
-import com.xiaozhang.springboot.service.SysMenuService;
-import com.xiaozhang.springboot.service.SysRoleService;
-import com.xiaozhang.springboot.service.SysUserService;
+import com.xiaozhang.springboot.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +33,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     SysRoleService sysRoleService;
+
+    @Autowired
+    SysUserTeamService sysUserTeamService;
+
+    @Autowired
+    SysTeamService sysTeamService;
+
+    @Autowired
+    SysDeptService sysDeptService;
 
     @Override
     public String getUserAuthorityInfo(String userId) {
@@ -94,6 +100,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setPassword("");
         List<SysRole> roles = getUserRoles(id);
         sysUser.setRoles(roles);
+
         return sysUser;
+    }
+
+    @Override
+    public SysDept getDeptInfoById(String userId) {
+
+        // 首先通过id查询用户所在的小组
+        SysUserTeam userTeam = sysUserTeamService.getOne(new QueryWrapper<SysUserTeam>().eq("user_id", userId));
+        Assert.notNull(userTeam, "你暂时不在工作小组中");
+
+        // 通过小组查部门
+        SysTeam teamInfo = sysTeamService.getById(userTeam.getTeamId());
+        Assert.notNull(teamInfo, "你暂时不在工作小组中");
+
+        return sysDeptService.getById(teamInfo.getDeptId());
     }
 }

@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaozhang.springboot.domain.SysDept;
 import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysUser;
 
@@ -65,8 +66,17 @@ public interface SysUserService extends IService<SysUser> {
 
     /**
      * 通过id获取数据
+     *
      * @param id
      * @return
      */
     SysUser getInfoById(String id);
+
+    /**
+     * 通过id获取部门信息
+     *
+     * @param userId
+     * @return
+     */
+    SysDept getDeptInfoById(String userId);
 }
