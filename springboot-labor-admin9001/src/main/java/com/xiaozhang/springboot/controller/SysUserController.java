@@ -3,20 +3,14 @@ package com.xiaozhang.springboot.controller;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
-import cn.hutool.captcha.generator.MathGenerator;
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.code.kaptcha.Producer;
 import com.xiaozhang.springboot.common.lang.Const;
 import com.xiaozhang.springboot.common.lang.Result;
-import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.domain.SysUserRole;
-import com.xiaozhang.springboot.service.SysUserDeptService;
 import com.xiaozhang.springboot.service.SysUserRoleService;
 import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
@@ -33,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -62,9 +55,6 @@ public class SysUserController {
 
     @Autowired
     SysUserRoleService sysUserRoleService;
-
-    @Autowired
-    SysUserDeptService sysUserDeptService;
 
     @Autowired
     PageUtils pageUtil;
@@ -121,7 +111,6 @@ public class SysUserController {
 
         pageData.getRecords().forEach(user -> {
             user.setRoles(sysUserService.getUserRoles(user.getId()));
-            user.setSysDept(sysUserDeptService.getUserDeptInfo(user.getId()));
             user.setPassword(null);
         });
 

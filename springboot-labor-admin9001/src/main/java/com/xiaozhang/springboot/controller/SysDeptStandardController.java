@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysDept;
 import com.xiaozhang.springboot.domain.SysDeptStandard;
-import com.xiaozhang.springboot.domain.SysQuestionItem;
 import com.xiaozhang.springboot.service.SysDeptService;
 import com.xiaozhang.springboot.service.SysDeptStandardService;
 import com.xiaozhang.springboot.utils.PageUtils;
@@ -22,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * <p>
@@ -74,7 +72,7 @@ public class SysDeptStandardController {
 
         pageData.getRecords().forEach(sysDeptStandard -> {
 
-            SysDept sysDept = sysDeptService.getById(sysDeptStandard.getDeptId());
+            SysDept sysDept = sysDeptService.getInfoById(sysDeptStandard.getDeptId());
 
             if (ObjectUtil.isNotNull(sysDept)) {
                 sysDeptStandard.setSysDept(sysDept);
@@ -93,9 +91,14 @@ public class SysDeptStandardController {
 
         sysDeptStandard.setCreateTime(new Date());
 
-        boolean flag = sysDeptStandardService.save(sysDeptStandard);
+        SysDeptStandard deptStandardInfo = sysDeptStandardService.getOne(new QueryWrapper<SysDeptStandard>().eq("dept_id", sysDeptStandard.getDeptId()));
 
-        return flag ? Result.success("添加成功") : Result.fail("添加失败");
+        if (ObjectUtil.isNotNull(deptStandardInfo)) {
+            return Result.fail("改部门已存在打卡标准");
+        } else {
+            boolean flag = sysDeptStandardService.save(sysDeptStandard);
+            return flag ? Result.success("添加成功") : Result.fail("添加失败");
+        }
     }
 
 

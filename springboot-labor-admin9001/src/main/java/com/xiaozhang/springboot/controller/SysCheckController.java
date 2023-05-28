@@ -69,8 +69,6 @@ public class SysCheckController {
     @Transactional(rollbackFor = Exception.class)
     public Result addCheck(@RequestBody @Validated SysCheck sysCheck) {
 
-        System.out.println("-------------------->>>>接受到相关数据" + sysCheck);
-
         SysUser userInfoById = sysUserService.getInfoById(sysCheck.getUserId());
         SysDeptStandard standard = new SysDeptStandard();
 

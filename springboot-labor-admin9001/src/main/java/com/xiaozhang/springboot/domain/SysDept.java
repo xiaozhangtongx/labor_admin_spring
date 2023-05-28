@@ -4,11 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,6 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -36,8 +33,9 @@ public class SysDept implements Serializable {
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
     private String id;
 
-    @ApiModelProperty(value = "上级部门id")
-    private String parentId;
+    @ApiModelProperty(value = "主管id")
+    @NotBlank(message = "主管不能为空")
+    private String leaderId;
 
     @ApiModelProperty(value = "部门名称")
     @NotBlank(message = "部门名称不能为空")
@@ -47,12 +45,6 @@ public class SysDept implements Serializable {
     @NotBlank(message = "部门职责不能为空")
     private String des;
 
-    @ApiModelProperty(value = "部门层级")
-    private Integer level;
-
-    @ApiModelProperty(value = "部门排序")
-    private Integer sort;
-
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 
@@ -60,12 +52,8 @@ public class SysDept implements Serializable {
     private Date createTime;
 
     @TableField(exist = false)
-    @ApiModelProperty(value = "部门数据")
-    private List<SysUserDept> sysUserDeptList;
-
-    @TableField(exist = false)
-    @ApiModelProperty(value = "部门领导列表（默认，为项目经理）")
-    private List<SysUser> leaders;
+    @ApiModelProperty(value = "部门主管")
+    private SysUser leader;
 
     @ApiModelProperty(value = "是否删除(0-未删, 1-已删)")
     @TableLogic

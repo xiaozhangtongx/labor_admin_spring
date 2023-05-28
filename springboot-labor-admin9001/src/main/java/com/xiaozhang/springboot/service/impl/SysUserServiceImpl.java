@@ -8,7 +8,6 @@ import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.mapper.SysUserMapper;
 import com.xiaozhang.springboot.service.SysMenuService;
 import com.xiaozhang.springboot.service.SysRoleService;
-import com.xiaozhang.springboot.service.SysUserDeptService;
 import com.xiaozhang.springboot.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +36,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     SysRoleService sysRoleService;
-
-    @Autowired
-    SysUserDeptService sysUserDeptService;
 
     @Override
     public String getUserAuthorityInfo(String userId) {
@@ -96,7 +92,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = getById(id);
         Assert.notNull(sysUser, "找不到该用户");
         sysUser.setPassword("");
-        sysUser.setSysDept(sysUserDeptService.getUserDeptInfo(sysUser.getId()));
         List<SysRole> roles = getUserRoles(id);
         sysUser.setRoles(roles);
         return sysUser;

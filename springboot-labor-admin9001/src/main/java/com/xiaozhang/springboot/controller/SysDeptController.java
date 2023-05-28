@@ -5,8 +5,10 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
-import com.xiaozhang.springboot.domain.*;
+import com.xiaozhang.springboot.domain.SysDept;
+import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.service.SysDeptService;
+import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,6 +40,9 @@ public class SysDeptController {
     @Autowired
     PageUtils pageUtils;
 
+    @Autowired
+    SysUserService sysUserService;
+
     @GetMapping("/list")
     @ApiOperation("获取部门列表,需要token")
     @ApiImplicitParams({
@@ -48,9 +53,15 @@ public class SysDeptController {
 
         Page<SysDept> pageData = sysDeptService.page(pageUtils.getPage(), new QueryWrapper<SysDept>()
                 .like("dept_name", deptName == null ? "" : deptName)
-                .like("parent_id", parentId == null ? "" : parentId)
                 .like("id", parentId == null ? "" : parentId)
                 .orderByDesc("create_time"));
+
+        pageData.getRecords().forEach(sysDept -> {
+            SysUser leaderInfoById = sysUserService.getById(sysDept.getLeaderId());
+            if (ObjectUtil.isNotNull(leaderInfoById)) {
+                sysDept.setLeader(leaderInfoById);
+            }
+        });
 
         return Result.success(200, "部门列表获取成功", pageData, "");
     }
