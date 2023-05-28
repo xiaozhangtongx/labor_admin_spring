@@ -1,7 +1,7 @@
 package com.xiaozhang.springboot.service;
 
-import com.xiaozhang.springboot.domain.SysUserTeam;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaozhang.springboot.domain.SysUserTeam;
 
 /**
  * <p>

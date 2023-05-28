@@ -1,9 +1,9 @@
 package com.xiaozhang.springboot.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhang.springboot.domain.SysUserTeam;
 import com.xiaozhang.springboot.mapper.SysUserTeamMapper;
 import com.xiaozhang.springboot.service.SysUserTeamService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

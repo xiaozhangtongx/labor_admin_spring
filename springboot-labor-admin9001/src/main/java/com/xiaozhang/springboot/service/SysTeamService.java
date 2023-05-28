@@ -1,7 +1,7 @@
 package com.xiaozhang.springboot.service;
 
-import com.xiaozhang.springboot.domain.SysTeam;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaozhang.springboot.domain.SysTeam;
 
 /**
  * <p>
@@ -13,4 +13,27 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysTeamService extends IService<SysTeam> {
 
+    /**
+     * 通过id获取小组的信息
+     *
+     * @param id
+     * @return 小组基本信息
+     */
+    SysTeam getInfoById(String id);
+
+    /**
+     * 添加小组
+     *
+     * @param sysTeam
+     * @return
+     */
+    boolean addTeam(SysTeam sysTeam);
+
+    /**
+     * 修改小组的信息
+     *
+     * @param sysTeam
+     * @return
+     */
+    boolean editTeam(SysTeam sysTeam);
 }

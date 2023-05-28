@@ -49,7 +49,7 @@ public class SysDeptController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result getQuestionList(String deptName, String parentId) {
+    public Result getDeptList(String deptName, String parentId) {
 
         Page<SysDept> pageData = sysDeptService.page(pageUtils.getPage(), new QueryWrapper<SysDept>()
                 .like("dept_name", deptName == null ? "" : deptName)
