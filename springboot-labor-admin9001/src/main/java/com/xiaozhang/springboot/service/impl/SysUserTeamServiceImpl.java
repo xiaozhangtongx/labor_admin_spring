@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaozhang.springboot.domain.SysUserTeam;
 import com.xiaozhang.springboot.mapper.SysUserTeamMapper;
 import com.xiaozhang.springboot.service.SysUserTeamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserTeamServiceImpl extends ServiceImpl<SysUserTeamMapper, SysUserTeam> implements SysUserTeamService {
 
+    @Autowired(required = false)
+    SysUserTeamMapper sysUserTeamMapper;
+
+    @Override
+    public boolean deleteByIds(List<String> idList) {
+
+        int lines = sysUserTeamMapper.deleteBatchIds(idList);
+
+        return lines != 0;
+    }
 }

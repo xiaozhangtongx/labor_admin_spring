@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -53,10 +55,11 @@ public class SysTeamController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result geTeamList(String teamName) {
+    public Result geTeamList(String teamName, String deptId) {
 
         Page<SysTeam> pageData = sysTeamService.page(pageUtils.getPage(), new QueryWrapper<SysTeam>()
                 .like("team_name", teamName == null ? "" : teamName)
+                .like("dept_id", deptId == null ? "" : deptId)
                 .orderByDesc("create_time"));
 
         pageData.getRecords().forEach(sysTeam -> {
@@ -111,9 +114,10 @@ public class SysTeamController {
             @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
     })
-    public Result getTeamUserList(String userId) {
+    public Result getTeamUserList(@RequestParam String teamId, String userId) {
 
         Page<SysUserTeam> pageData = sysUserTeamService.page(pageUtils.getPage(), new QueryWrapper<SysUserTeam>()
+                .eq("team_id", teamId)
                 .like("user_id", userId == null ? "" : userId)
                 .orderByDesc("create_time"));
 
@@ -164,11 +168,19 @@ public class SysTeamController {
     @DeleteMapping("/member/delete/{id}")
     @ApiOperation("移除小组成员,需要token")
     @Transactional(rollbackFor = Exception.class)
-    public Result deleteMember(@Validated @RequestBody SysUserTeam sysUserTeam) {
+    public Result deleteMember(@PathVariable String id) {
 
-        sysUserTeam.setUpdateTime(new Date());
+        boolean flag = sysUserTeamService.deleteByIds(Collections.singletonList(id));
 
-        boolean flag = sysUserTeamService.removeById(sysUserTeam);
+        return flag ? Result.success("移除成功") : Result.fail("移除失败");
+    }
+
+
+    @PostMapping("/member/delete")
+    @ApiOperation("批量移除组员,需要token")
+    public Result delete(@RequestBody String[] ids) {
+
+        boolean flag = sysUserTeamService.deleteByIds(Arrays.asList(ids));
 
         return flag ? Result.success("移除成功") : Result.fail("移除失败");
     }
