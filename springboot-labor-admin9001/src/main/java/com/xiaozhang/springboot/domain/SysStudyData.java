@@ -1,13 +1,14 @@
 package com.xiaozhang.springboot.domain;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 
-import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -76,4 +77,19 @@ public class SysStudyData implements Serializable {
     @TableField(exist = false)
     @ApiModelProperty(value = "发布者信息")
     private SysUser creator;
+
+    @TableField(exist = false)
+    private Integer textNum;
+
+    @TableField(exist = false)
+    private  Integer PDFNum;
+
+    @TableField(exist = false)
+    private Integer videoNum;
+
+    @TableField(exist = false)
+    private Integer allNum;
+
+    @TableField(exist = false)
+    private Date time;
 }

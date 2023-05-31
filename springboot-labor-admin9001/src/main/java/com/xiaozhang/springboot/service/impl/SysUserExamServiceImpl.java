@@ -65,10 +65,10 @@ public class SysUserExamServiceImpl extends ServiceImpl<SysUserExamMapper, SysUs
 
         boolean canAnswer = canAnswer(examInfoById.getStartTime(), examInfoById.getEndTime());
 
-        log.info("-------1--------" + sysUserExam.getUserAnswerList().size());
+        log.info("-------1--------" + sysUserExam.getUserAnswerList().size() + canAnswer);
 
         if (canAnswer) {
-            SysUserExam sysUserExamRes = sysExamQuestionUserService.submitAnswer(sysUserExam.getUserAnswerList(), sysUserExam.getId(), sysUserExam.getUserId());
+            SysUserExam sysUserExamRes = sysExamQuestionUserService.submitAnswer(sysUserExam.getUserAnswerList(), sysUserExam.getUserId(),sysUserExam.getExamId(),sysUserExam.getStartTime());
             return sysUserExamRes;
         }
 

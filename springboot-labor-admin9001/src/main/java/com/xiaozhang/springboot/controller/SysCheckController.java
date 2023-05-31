@@ -70,13 +70,13 @@ public class SysCheckController {
 
         System.out.println("-------------------->>>>接受到相关数据"+sysCheck);
 
-        SysUser userInfo = sysUserService.getById(sysCheck.getUserId());
-
-        SysDeptStandard standard = sysDeptStandardService.getRuleById(userInfo.getDeptId());
+        SysDeptStandard standard = sysDeptStandardService.getRuleById(sysCheck.getUserId());
 
         double distance = mathUtils.calculateDistance(standard.getLat(), standard.getLon(), sysCheck.getLat(), sysCheck.getLon());
 
         if (distance > standard.getRadius()) {
+            System.out.println("---------------》距离不合适");
+
             return Result.fail("请在工作地点内打卡!");
         } else {
             List<SysCheck> checkList = sysCheckService.getCheckInfoToday(sysCheck.getUserId(), new Date());
@@ -99,9 +99,16 @@ public class SysCheckController {
             checkInfo.setLon(sysCheck.getLon());
 
             sysCheckService.saveOrUpdate(checkInfo);
-
+            System.out.println("---------------》距离合适");
             return Result.success("打卡成功!");
         }
+    }
+
+    @PostMapping("/getStandard")
+    public Result getStandard(@RequestBody SysCheck sysCheck)
+    {
+        SysDeptStandard standard = sysDeptStandardService.getRuleById(sysCheck.getUserId());
+        return  Result.success(200,"获取标准成功",standard,"");
     }
 
     @PutMapping("/admin/edit")

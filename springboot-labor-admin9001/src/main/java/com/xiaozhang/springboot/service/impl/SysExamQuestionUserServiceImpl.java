@@ -1,5 +1,6 @@
 package com.xiaozhang.springboot.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -44,7 +45,7 @@ public class SysExamQuestionUserServiceImpl extends ServiceImpl<SysExamQuestionU
     MathUtils mathUtils;
 
     @Override
-    public SysUserExam submitAnswer(List<SysExamQuestionUser> userAnswerList, String userExamId, String userId) {
+    public SysUserExam submitAnswer(List<SysExamQuestionUser> userAnswerList, String userId,String examId,Date startTime) {
 
         Double grades = 0.0;
         Double totalGrades = 0.0;
@@ -73,15 +74,17 @@ public class SysExamQuestionUserServiceImpl extends ServiceImpl<SysExamQuestionU
         }
 
         boolean b = saveBatch(sysExamQuestionUserList);
-
+        log.info("---------test-------"+b);
         // 提交成功后更新用户考试数据
         if (b) {
-            SysUserExam userExamInfoById = sysUserExamService.getById(userExamId);
+            SysUserExam userExamInfoById = new SysUserExam();
 
+            userExamInfoById.setExamId(examId);
+            userExamInfoById.setUserId(userId);
             userExamInfoById.setEndTime(new Date());
             userExamInfoById.setGrades(grades);
             userExamInfoById.setExamScore(totalGrades);
-            userExamInfoById.setSpendTime(mathUtils.getDuration(new Date(), userExamInfoById.getStartTime()));
+            userExamInfoById.setSpendTime(mathUtils.getDuration(userExamInfoById.getEndTime(), DateUtil.offsetHour(userExamInfoById.getEndTime(), -1)));
             userExamInfoById.setStatus(1);
             // 判断考试是否合格
             if (NumberUtil.div(grades, totalGrades) > 0.6) {
@@ -92,7 +95,7 @@ public class SysExamQuestionUserServiceImpl extends ServiceImpl<SysExamQuestionU
                 userExamInfoById.setDes("不合格");
             }
 
-            sysUserExamService.updateById(userExamInfoById);
+            sysUserExamService.save(userExamInfoById);
             sysUserExam = userExamInfoById;
         }
 

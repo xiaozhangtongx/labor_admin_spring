@@ -1,6 +1,7 @@
 package com.xiaozhang.springboot.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xiaozhang.springboot.domain.SysCheck;
 import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysUser;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     List<String> getNavMenuIds(String userId);
 
     List<SysRole> getRoleList(String userId);
+
+    List<SysCheck> selectDeptUser(String deptId);
 }

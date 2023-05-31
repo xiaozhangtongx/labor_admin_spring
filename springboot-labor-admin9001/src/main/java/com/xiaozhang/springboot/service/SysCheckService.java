@@ -44,4 +44,6 @@ public interface SysCheckService extends IService<SysCheck> {
      */
     Boolean setCheckInfo(String userId, Date startTime, Date endTime, String des, Integer status);
 
+    List<SysCheck> getAllTime(String userId,String deptId,Date startTime,Date endTime);
+
 }

@@ -91,10 +91,13 @@ public class SysUserExamController {
     public Result listEmpty(@RequestParam String phoneNumber)
     {
         SysUser user = sysUserService.getByPhoneNum(phoneNumber);
+        //参加过的考试
         QueryWrapper<SysUserExam> wrapper = new QueryWrapper<SysUserExam>().select("DISTINCT exam_id").eq("user_id",user.getId());
         Integer join= sysUserExamService.count(wrapper);
         wrapper.eq("res",0);
+        //未过关的考试
         Integer fail = sysUserExamService.count(wrapper);
+        //试卷总数
         Integer allExam = sysExamService.count(new QueryWrapper<SysExam>().select("id"));
         Integer emptySize=allExam-join+fail;
         return ObjectUtil.isNotNull((emptySize)) ? Result.success(200, "获取成功",emptySize, "") : Result.fail("提交失败，请稍后在试！");

@@ -72,4 +72,7 @@ public class SysCheck implements Serializable {
     @ApiModelProperty(value = "用户信息")
     @TableField(exist = false)
     private SysUser user;
+
+    @TableField(exist = false)
+    private Double totalTime;
 }

@@ -85,4 +85,10 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "用户角色列表")
     private List<SysRole> roles;
 
+    @TableField(exist = false)
+    private String timeScale;
+
+    @TableField(exist = false)
+    private Double totalTime;
+
 }

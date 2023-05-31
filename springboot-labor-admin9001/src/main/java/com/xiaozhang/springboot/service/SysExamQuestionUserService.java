@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaozhang.springboot.domain.SysUserExam;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,9 +22,8 @@ public interface SysExamQuestionUserService extends IService<SysExamQuestionUser
      * 用户提交答案
      *
      * @param userAnswerList
-     * @param userExamId
      * @param userId
      * @return
      */
-    SysUserExam submitAnswer(List<SysExamQuestionUser> userAnswerList, @NotBlank(message = "考试序号不能为空") String userExamId, String userId);
+    SysUserExam submitAnswer(List<SysExamQuestionUser> userAnswerList, String userId,String examId, Date startTime);
 }

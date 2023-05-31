@@ -2,4 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaozhang.springboot.mapper.SysDeptStandardMapper">
 
+    <select id="getStandard" resultType="com.xiaozhang.springboot.domain.SysDeptStandard">
+        select * from
+        sys_dept_standard
+        where dept_id = #{deptId}
+    </select>
+
+    <select id="getDept" resultType="string">
+        select st.dept_id from
+            sys_user su
+                join sys_user_team stu on su.id = stu.user_id
+                join sys_team st on st.id = stu.team_id
+        where su.id = #{userId}
+    </select>
 </mapper>

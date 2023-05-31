@@ -15,8 +15,8 @@ public interface SysDeptStandardService extends IService<SysDeptStandard> {
 
     /**
      * 根据部门id获取打卡标准
-     * @param deptId
+     * @param userId
      * @return
      */
-    SysDeptStandard getRuleById(String deptId);
+    SysDeptStandard getRuleById(String userId);
 }

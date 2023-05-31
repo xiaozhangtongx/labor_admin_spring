@@ -21,4 +21,15 @@
           AND (
             id IN (SELECT role_id FROM sys_user_role WHERE user_id = #{userId}))
     </select>
+
+    <select id="selectDeptUser" resultType="com.xiaozhang.springboot.domain.SysCheck">
+    SELECT SUM(over_time+add_time) as totalTime,user_id
+    FROM sys_check
+    WHERE user_id IN
+          (SELECT id
+           FROM sys_user u
+           WHERE u.dept_id=#{deptId})
+    GROUP BY user_id
+    ORDER BY totalTime DESC
+    </select>
 </mapper>

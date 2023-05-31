@@ -104,4 +104,11 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
         return saveOrUpdate(sysCheck);
     }
 
+    @Override
+    public List<SysCheck> getAllTime(String userId, String deptId, Date startTime, Date endTime) {
+        List<SysCheck> checkInfo = sysUserMapper.selectDeptUser(deptId);
+
+        return checkInfo;
+    }
+
 }

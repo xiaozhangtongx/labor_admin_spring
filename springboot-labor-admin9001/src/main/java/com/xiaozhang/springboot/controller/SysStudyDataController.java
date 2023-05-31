@@ -7,9 +7,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Result;
 import com.xiaozhang.springboot.domain.SysStudyData;
 import com.xiaozhang.springboot.domain.SysUser;
+import com.xiaozhang.springboot.domain.SysUserStudy;
 import com.xiaozhang.springboot.service.SysStudyDataService;
 import com.xiaozhang.springboot.service.SysStudyDataService;
 import com.xiaozhang.springboot.service.SysUserService;
+import com.xiaozhang.springboot.service.SysUserStudyService;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,6 +41,9 @@ public class SysStudyDataController {
 
     @Autowired
     SysUserService sysUserService;
+
+    @Autowired
+    SysUserStudyService sysUserStudyService;
 
     @Autowired
     PageUtils pageUtils;

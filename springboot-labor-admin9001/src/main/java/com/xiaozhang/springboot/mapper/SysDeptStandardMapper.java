@@ -3,6 +3,8 @@ package com.xiaozhang.springboot.mapper;
 import com.xiaozhang.springboot.domain.SysDeptStandard;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 /**
  * <p>
@@ -14,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysDeptStandardMapper extends BaseMapper<SysDeptStandard> {
-
+    SysDeptStandard getStandard(@Param("deptId") String deptId);
+    String getDept(@Param("userId") String userId);
 }
