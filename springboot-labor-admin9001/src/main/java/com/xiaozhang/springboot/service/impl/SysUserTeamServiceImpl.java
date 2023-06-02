@@ -26,8 +26,6 @@ public class SysUserTeamServiceImpl extends ServiceImpl<SysUserTeamMapper, SysUs
     @Override
     public boolean deleteByIds(List<String> idList) {
 
-        int lines = sysUserTeamMapper.deleteBatchIds(idList);
-
-        return lines != 0;
+        return removeByIds(idList);
     }
 }

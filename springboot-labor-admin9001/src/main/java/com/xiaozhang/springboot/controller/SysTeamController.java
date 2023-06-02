@@ -140,7 +140,9 @@ public class SysTeamController {
 
         sysUserTeam.setCreateTime(new Date());
 
-        SysUserTeam userInfo = sysUserTeamService.getOne(new QueryWrapper<SysUserTeam>().eq("user_id", sysUserTeam.getUserId()));
+        SysUserTeam userInfo = sysUserTeamService.getOne(new QueryWrapper<SysUserTeam>()
+                .eq("user_id", sysUserTeam.getUserId())
+                .eq("team_id", sysUserTeam.getTeamId()));
 
         if (ObjectUtil.isNotNull(userInfo)) {
             return Result.fail("该用户已经是小组成员了");

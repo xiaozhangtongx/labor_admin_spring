@@ -88,7 +88,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Boolean deleteByIds(List<String> idList) {
-        Integer lines = sysUserMapper.deleteBatchIds(idList);
+        int lines = sysUserMapper.deleteBatchIds(idList);
         return lines != 0;
     }
 
