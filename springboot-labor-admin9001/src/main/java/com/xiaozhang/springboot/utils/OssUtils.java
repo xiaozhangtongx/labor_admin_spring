@@ -30,10 +30,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Scope("prototype")
 public class OssUtils {
 
-    private static final String ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI5tNJMLjaTELSPba3bBBn";
-    private static final String ACCESS_KEY_SECRET = "SAt2NU1TpV7tYexoGzGNl0PpLInznS";
-    private static final String BUCKET_NAME = "labor-safe";
+    private static final String ENDPOINT = "oss-cn-beijing.aliyuncs.com";
+    private static final String ACCESS_KEY_ID = "LTAI5tAbTLy4w2ZqdgjwzL5f";
+    private static final String ACCESS_KEY_SECRET = "hxLBkHmA3muwhj00JXNuWqXRQC2uPZ";
+    private static final String BUCKET_NAME = "laboradmin";
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
     private static final int PART_SIZE = 5 * 1024 * 1024;
 
