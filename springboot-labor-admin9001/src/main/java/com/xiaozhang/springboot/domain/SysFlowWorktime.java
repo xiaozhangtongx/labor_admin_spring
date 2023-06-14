@@ -68,4 +68,7 @@ public class SysFlowWorktime implements Serializable {
     @TableField(exist = false)
     @ApiModelProperty(value = "申请人信息")
     private SysUser proposer;
+
+    @TableField(exist = false)
+    private SysUser leader;
 }

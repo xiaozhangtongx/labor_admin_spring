@@ -69,4 +69,7 @@ public class SysUserExam implements Serializable {
     @ApiModelProperty(value = "用户答案列表")
     private List<SysExamQuestionUser> userAnswerList;
 
+    @TableField(exist = false)
+    private SysExam examInfo;
+
 }

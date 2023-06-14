@@ -37,6 +37,9 @@ public class SysUserExamServiceImpl extends ServiceImpl<SysUserExamMapper, SysUs
     @Autowired
     SysExamQuestionUserService sysExamQuestionUserService;
 
+    @Autowired
+    SysUserExamMapper sysUserExamMapper;
+
     /**
      * 判断当前时间是否可以答题
      *
@@ -65,7 +68,7 @@ public class SysUserExamServiceImpl extends ServiceImpl<SysUserExamMapper, SysUs
 
         boolean canAnswer = canAnswer(examInfoById.getStartTime(), examInfoById.getEndTime());
 
-        log.info("-------1--------" + sysUserExam.getUserAnswerList().size() + canAnswer);
+        log.info("-------是否可以作答--------" + sysUserExam.getUserAnswerList().size() + canAnswer);
 
         if (canAnswer) {
             SysUserExam sysUserExamRes = sysExamQuestionUserService.submitAnswer(sysUserExam.getUserAnswerList(), sysUserExam.getUserId(),sysUserExam.getExamId(),sysUserExam.getStartTime());
@@ -93,6 +96,11 @@ public class SysUserExamServiceImpl extends ServiceImpl<SysUserExamMapper, SysUs
         }
 
         return canAnswer && save;
+    }
+
+    @Override
+    public List<SysUserExam> listRecords(String userId) {
+       return sysUserExamMapper.selectRecords(userId);
     }
 
 

@@ -91,4 +91,7 @@ public class SysUser implements Serializable {
     @TableField(exist = false)
     private Double totalTime;
 
+    @TableField(exist = false)
+    private SysDeptStandard standard;
+
 }

@@ -3,6 +3,8 @@ package com.xiaozhang.springboot.service;
 import com.xiaozhang.springboot.domain.SysUserExam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -28,4 +30,11 @@ public interface SysUserExamService extends IService<SysUserExam> {
      * @return
      */
     boolean enterExam(SysUserExam sysUserExam);
+
+    /**
+     * 查询考试记录
+     * @param userId
+     * @return
+     */
+    List<SysUserExam> listRecords(String userId);
 }

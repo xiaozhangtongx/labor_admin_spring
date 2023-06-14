@@ -91,4 +91,23 @@ public class SysFlowLeaveController {
         return Result.success(200, "请假列表获取成功", pageData, "");
     }
 
+    @GetMapping("/listForCancel")
+    @ApiOperation("请假记录列表，需要token")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "current", value = "请求页数", required = false, dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "size", value = "请求页大小", required = false, dataType = "Integer", paramType = "query")
+    })
+    public Result listForCancel(@RequestParam String userId) {
+
+        Page<SysFlowLeave> pageData = sysFlowLeaveService.page(pageUtil.getPage(), new QueryWrapper<SysFlowLeave>()
+                .like("user_id", userId).eq("status",0).orderByDesc("create_time"));
+
+        pageData.getRecords().forEach(leaveFlow -> {
+            SysUser leader = sysUserService.getById(leaveFlow.getLeaderId());
+            leader.setPassword("");
+            leaveFlow.setLeader(leader);
+        });
+
+        return Result.success(200, "请假列表获取成功", pageData, "");
+    }
 }

@@ -59,4 +59,7 @@ public class SysUploadUnsafe implements Serializable {
     @TableField(exist = false)
     private SysUser labor;
 
+    @TableField(exist = false)
+    private SysUser safer;
+
 }

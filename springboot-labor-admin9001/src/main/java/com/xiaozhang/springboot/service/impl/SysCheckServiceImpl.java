@@ -40,6 +40,9 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
     SysUserMapper sysUserMapper;
 
     @Autowired
+    SysCheckService sysCheckService;
+
+    @Autowired
     MathUtils mathUtils;
 
 
@@ -64,7 +67,7 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
         for (Object id : userIdList) {
             List<SysCheck> checkInfoToday = getCheckInfoToday((String) id, new Date());
 
-            // 判断时候已经有记录了
+            // 判断是否已经有记录了
             if (checkInfoToday.isEmpty()) {
                 SysCheck sysCheck = new SysCheck();
                 sysCheck.setCreateTime(new Date());
@@ -110,5 +113,7 @@ public class SysCheckServiceImpl extends ServiceImpl<SysCheckMapper, SysCheck> i
 
         return checkInfo;
     }
+
+
 
 }

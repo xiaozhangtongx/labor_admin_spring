@@ -1,6 +1,5 @@
 package com.xiaozhang.springboot.domain;
 
-import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 
 
@@ -16,7 +15,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -92,4 +90,6 @@ public class SysStudyData implements Serializable {
 
     @TableField(exist = false)
     private Date time;
+
+
 }

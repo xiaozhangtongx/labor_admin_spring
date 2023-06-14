@@ -7,9 +7,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaozhang.springboot.common.lang.Const;
 import com.xiaozhang.springboot.common.lang.Result;
+import com.xiaozhang.springboot.domain.SysDeptStandard;
 import com.xiaozhang.springboot.domain.SysRole;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.domain.SysUserRole;
+import com.xiaozhang.springboot.service.SysDeptStandardService;
 import com.xiaozhang.springboot.service.SysUserRoleService;
 import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
@@ -51,6 +53,9 @@ public class SysUserController {
     SysUserRoleService sysUserRoleService;
 
     @Autowired
+    SysDeptStandardService sysDeptStandardService;
+
+    @Autowired
     PageUtils pageUtil;
 
     @Autowired
@@ -64,7 +69,9 @@ public class SysUserController {
         sysUser.setLastLogin(new Date());
         sysUserService.updateById(sysUser);
         sysUser.setPassword(null);
-
+        SysDeptStandard sysDeptStandard = sysDeptStandardService.getRuleById(sysUser.getId());
+        sysUser.setStandard(sysDeptStandard);
+        System.out.println("---------------------->"+sysDeptStandard);
         return Result.success(200, "用户信息获取成功", sysUser, "");
     }
 

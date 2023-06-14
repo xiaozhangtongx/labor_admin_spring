@@ -13,6 +13,7 @@ import com.xiaozhang.springboot.domain.SysFlowLeave;
 import com.xiaozhang.springboot.domain.SysFlowOvertime;
 import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.service.SysFlowOvertimeService;
+import com.xiaozhang.springboot.service.SysUserService;
 import com.xiaozhang.springboot.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,6 +43,9 @@ public class SysFlowOvertimeController {
 
     @Autowired
     SysFlowOvertimeService sysFlowOvertimeService;
+
+    @Autowired
+    SysUserService sysUserService;
 
     @Autowired
     PageUtils pageUtil;
@@ -79,6 +83,11 @@ public class SysFlowOvertimeController {
         Page<SysFlowOvertime> pageData = sysFlowOvertimeService.page(pageUtil.getPage(), new QueryWrapper<SysFlowOvertime>()
                 .like("user_id", userId));
 
+        pageData.getRecords().forEach(overFlow -> {
+            SysUser leader = sysUserService.getById(overFlow.getLeaderId());
+            leader.setPassword("");
+            overFlow.setLeader(leader);
+        });
         return Result.success(200, "请假列表获取成功", pageData, "");
     }
 }

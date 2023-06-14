@@ -75,4 +75,13 @@ public class SysCheck implements Serializable {
 
     @TableField(exist = false)
     private Double totalTime;
+
+    @TableField(exist = false)
+    private Integer leaveDay;
+
+    @TableField(exist = false)
+    private Integer overDay;
+
+    @TableField(exist = false)
+    private Integer workDay;
 }

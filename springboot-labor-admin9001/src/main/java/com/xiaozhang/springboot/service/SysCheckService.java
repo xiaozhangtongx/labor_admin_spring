@@ -46,4 +46,5 @@ public interface SysCheckService extends IService<SysCheck> {
 
     List<SysCheck> getAllTime(String userId,String deptId,Date startTime,Date endTime);
 
+
 }

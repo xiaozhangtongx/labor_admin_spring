@@ -26,7 +26,7 @@ public class SysUserStudyServiceImpl extends ServiceImpl<SysUserStudyMapper, Sys
     SysUserStudyMapper sysUserStudyMapper;
 
     @Override
-    public List<SysStudyData> getCount(SysUserStudy sysUserStudy, DateTime start, DateTime end) {
-        return sysUserStudyMapper.selectVarietyCount(sysUserStudy.getUserId(),start,end);
+    public List<SysStudyData> getCount(String userId, DateTime start, DateTime end) {
+        return sysUserStudyMapper.selectVarietyCount(userId,start,end);
     }
 }

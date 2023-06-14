@@ -55,7 +55,7 @@ public class SysExamQuestionUserServiceImpl extends ServiceImpl<SysExamQuestionU
 
         for (SysExamQuestionUser sysExamQuestionUser : userAnswerList) {
             sysExamQuestionUser.setUserId(userId);
-
+            System.out.println("------------>"+sysExamQuestionUser.getExamQuestionId());
             // 判断用户是否作对,并统计分数
             SysQuestion questionInfoById = sysQuestionService.getOne(new QueryWrapper<SysQuestion>().eq("id", sysExamQuestionUser.getExamQuestionId()));
 

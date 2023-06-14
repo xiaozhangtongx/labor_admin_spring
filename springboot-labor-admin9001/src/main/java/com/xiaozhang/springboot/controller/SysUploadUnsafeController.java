@@ -47,7 +47,9 @@ public class SysUploadUnsafeController {
     @PostMapping("/uploadUnsafe")
     public Result uploadUnsafe(@RequestBody SysUploadUnsafe sysUploadUnsafe)
     {
+        System.out.println("-------->"+sysUploadUnsafe.getDatas().size());
         List<String> urls = ossUtils.uploadImages(sysUploadUnsafe.getDatas());
+        System.out.println("--------->"+urls.size());
         sysUploadUnsafeService.saveUrls(sysUploadUnsafe,urls);
         return Result.success(200,"获取成功",urls,"");
     }
@@ -62,9 +64,12 @@ public class SysUploadUnsafeController {
 
         Page<SysUploadUnsafe> pageData = sysUploadUnsafeService.page(pageUtils.getPage(), new QueryWrapper<SysUploadUnsafe>()
 //                .like("title", title == null ? "" : title)
-                .like("content", content == null ? "" : content));
+                .like("content", content == null ? "" : content).orderByDesc("create_time"));
         pageData.getRecords().forEach(unSafeInfo ->{
             SysUser laborInfo = sysUserService.getById(unSafeInfo.getLaborId());
+            SysUser saferInfo = sysUserService.getById(unSafeInfo.getSafetyId());
+            saferInfo.setPassword("");
+            unSafeInfo.setSafer(saferInfo);
             laborInfo.setPassword("");
             unSafeInfo.setLabor(laborInfo);
         });

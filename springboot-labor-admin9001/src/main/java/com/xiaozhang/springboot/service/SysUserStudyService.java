@@ -17,5 +17,5 @@ import java.util.List;
  */
 public interface SysUserStudyService extends IService<SysUserStudy> {
 
-    List<SysStudyData> getCount(SysUserStudy sysUserStudy, DateTime start, DateTime end);
+    List<SysStudyData> getCount(String userId, DateTime start, DateTime end);
 }

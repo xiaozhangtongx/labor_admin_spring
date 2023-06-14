@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xiaozhang.springboot.mapper.SysUserExamMapper">
 
+    <resultMap id="BaseMap" type="com.xiaozhang.springboot.domain.SysUserExam">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="exam_id" property="examId"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="des" property="des"/>
+        <result column="grades" property="grades"/>
+        <result column="status" property="status"/>
+        <result column="res" property="res"/>
+        <result column="spend_time" property="spendTime"/>
+        <result column="exam_score" property="examScore"/>
+    </resultMap>
+
+    <resultMap id="withExams" type="com.xiaozhang.springboot.domain.SysUserExam" extends="BaseMap">
+        <collection property="examInfo" ofType="com.xiaozhang.springboot.domain.SysExam" select="com.xiaozhang.springboot.mapper.SysUserExamMapper.getExamInfo" column="exam_id"/>
+    </resultMap>
+    <select id="getExamInfo" resultType="com.xiaozhang.springboot.domain.SysExam">
+        select *
+        from sys_exam
+        where id = #{id}
+    </select>
+
+    <select id="selectRecords" resultMap="withExams">
+        select *
+        from sys_user_exam
+        where user_id = #{userId}
+    </select>
 </mapper>

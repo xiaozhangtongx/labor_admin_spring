@@ -8,6 +8,7 @@ import com.xiaozhang.springboot.domain.SysUser;
 import com.xiaozhang.springboot.mapper.SysFlowCancelMapper;
 import com.xiaozhang.springboot.service.SysFlowCancelService;
 import com.xiaozhang.springboot.service.SysFlowLeaveService;
+import com.xiaozhang.springboot.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class SysFlowCancelServiceImpl extends ServiceImpl<SysFlowCancelMapper, S
     @Autowired
     SysFlowLeaveService sysFlowLeaveService;
 
+    @Autowired
+    SysUserService sysUserService;
+
     @Override
     public boolean updateStatus(Integer approvalResult, String applicationId) {
 
@@ -49,8 +53,12 @@ public class SysFlowCancelServiceImpl extends ServiceImpl<SysFlowCancelMapper, S
 
         if (ObjectUtil.isNotNull(cancelInfoById)) {
             SysFlowLeave leaveInfoById = sysFlowLeaveService.getLeaveInfoById(cancelInfoById.getLeaveId());
+            SysUser userInfoById = sysUserService.getById(leaveInfoById.getUserId());
+            userInfoById.setPassword(null);
+            cancelInfoById.setProposer(userInfoById);
             cancelInfoById.setLeaveInfo(leaveInfoById);
             log.info("--------------------销假-------------" + cancelInfoById.getId());
+
         }
 
         return cancelInfoById;

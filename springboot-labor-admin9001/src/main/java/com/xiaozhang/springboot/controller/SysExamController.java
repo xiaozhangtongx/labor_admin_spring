@@ -52,7 +52,7 @@ public class SysExamController {
 
         Page<SysExam> pageData = sysExamService.page(pageUtils.getPage(), new QueryWrapper<SysExam>()
                 .like("title", title == null ? "" : title).like("status", status == null ? "" : status)
-                .like("creator", creator == null ? "" : creator).orderByDesc("start_time"));
+                .like("creator", creator == null ? "" : creator).orderByDesc("start_time").orderByAsc("status"));
 
         return Result.success(200, "试卷列表获取成功", pageData, "");
     }
